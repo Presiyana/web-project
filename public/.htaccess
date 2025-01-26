@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Set proper base path for your project
+    RewriteBase /web-project/public/
+
+    # Handle user edit route
+    RewriteRule ^requirement/(\d+)/edit$ requirement/edit.php?id=$1 [L,QSA,NC]
+    
+    # Redirect all other requests to index.php if file/directory doesn't exist
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . index.php [L]
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
