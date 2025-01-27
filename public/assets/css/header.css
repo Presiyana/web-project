@@ -18,6 +18,13 @@ nav a {
     text-decoration: none;
     color: var(--white);
 }
+
 nav a:hover {
     text-decoration: underline;
+}
+
+nav #userDetails {
+    margin-left: 20px;
+    display: flex;
+    gap: 20px;
 }

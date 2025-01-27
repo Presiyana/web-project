@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once __DIR__ . '/../../app/services/RequirementService.php';
 $requirementService = RequirementService::getInstance();
 $requirementId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
