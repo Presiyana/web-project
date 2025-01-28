@@ -1,9 +1,21 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . '/../../app/config/config.php';
 
-$authUser = $_SESSION['auth_user'];
-$hasAuthUser = !!$_SESSION['auth_user'];
+
+if (!isset($_SESSION['auth_user'])) {
+    $currentRoute = basename($_SERVER['PHP_SELF']);
+
+    if (!in_array($currentRoute, ['login.php', 'register.php'])) {
+        header("Location: /login.php");
+        exit;
+    }
+} else {
+    $authUser = $_SESSION['auth_user'];
+    $userName = $authUser['username'] ?? "User";
+}
 ?>
 
 <!DOCTYPE html>
