@@ -4,17 +4,30 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/../../app/config/config.php';
 
+$currentRoute = basename($_SERVER['PHP_SELF']);
+$isOnAuthPage = in_array($currentRoute, ['login.php', 'register.php']);
 
-if (!isset($_SESSION['auth_user'])) {
-    $currentRoute = basename($_SERVER['PHP_SELF']);
+$hasAuthUser = isset($_SESSION['auth_user']);
 
-    if (!in_array($currentRoute, ['login.php', 'register.php'])) {
-        header("Location: /login.php");
+$userName = "";
+$loggedInElementStyle = "";
+$loggedOutElementStyle = "";
+
+if (!$hasAuthUser) {
+    $loggedInElementStyle = "display: none";
+    $loggedOutElementStyle = "display: block";
+    if (!$isOnAuthPage) {
+        header("Location: " . BASE_URL . "auth/login");
         exit;
     }
 } else {
-    $authUser = $_SESSION['auth_user'];
-    $userName = $authUser['username'] ?? "User";
+    $userName = $_SESSION['auth_user']['username'];
+    $loggedInElementStyle = "display: block";
+    $loggedOutElementStyle = "display: none";
+    if ($isOnAuthPage) {
+        header("Location: " . BASE_URL . "requirement");
+        exit;
+    }
 }
 ?>
 
@@ -35,43 +48,25 @@ if (!isset($_SESSION['auth_user'])) {
     <header>
         <h3 id="page-title">Requirements portal</h3>
         <nav>
-            <a class="logged-out" href="<?= BASE_URL ?>auth/login">Login</a>
-            <a class="logged-out" href="<?= BASE_URL ?>auth/register">Register</a>
+            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/login">
+                Login
+            </a>
+            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/register">
+                Register
+            </a>
 
-            <a class="logged-in" href="<?= BASE_URL ?>requirement">Requirements</a>
-            <a class="logged-in" href="<?= BASE_URL ?>requirement/add">Add Requirement</a>
+            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement">
+                Requirements
+            </a>
+            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement/add">
+                Add Requirement
+            </a>
 
-            <div class="logged-in" id="userDetails">
-                <span id="hello-user"></span>
+            <div class="logged-in" style="<?= $loggedInElementStyle ?>" id="userDetails">
+                <span id="hello-user">Hello <?= $userName ?></span>
                 <a href="<?= BASE_URL ?>auth/logout">Logout</a>
             </div>
         </nav>
     </header>
-
-    <script type="text/javascript">
-        const BASE_URL = "<?= BASE_URL; ?>";
-
-        const hasAuthUser = Boolean(<?= $hasAuthUser; ?>);
-        const currentRoute = window.location.href.replace(BASE_URL, '');
-
-        if (hasAuthUser) {
-            document.querySelectorAll('.logged-in').forEach(el => el.style.display = 'block');
-            document.querySelectorAll('.logged-out').forEach(el => el.style.display = 'none');
-
-            const helloUserTextElement = document.getElementById('hello-user');
-            helloUserTextElement.innerHTML = 'Hello <?= $authUser['username'] ?>';
-
-            if (!currentRoute.startsWith('requirement')) {
-                window.location.href = `${BASE_URL}requirement`;
-            }
-        } else {
-            document.querySelectorAll('.logged-out').forEach(el => el.style.display = 'block');
-            document.querySelectorAll('.logged-in').forEach(el => el.style.display = 'none');
-
-            if (!currentRoute.startsWith('auth/')) {
-                window.location.href = `${BASE_URL}auth/login`;
-            }
-        }
-    </script>
 
     <main>
