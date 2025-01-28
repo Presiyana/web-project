@@ -19,6 +19,11 @@ $authUser = $userService->login(
     $password,
 );
 
+if (empty($authUser)) {
+    header('Location: ../login');
+    exit;
+}
+
 $_SESSION['auth_user'] = $authUser;
 
 header('Location: ../../requirement');
