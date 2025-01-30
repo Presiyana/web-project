@@ -155,6 +155,20 @@ class RequirementService
         $stmp->execute([':id' => $id]);
     }
 
+    public function getRequirementsByLayer($layer = null)
+    {
+        $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
+        if ($layer && in_array($layer, $allowedLayers)) {
+            $sql = "SELECT * FROM requirements WHERE layer = :layer";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':layer' => $layer]);
+        } else {
+            $sql = "SELECT * FROM `requirements`";
+            $stmt = $this->db->query($sql);
+        }
+
+        return $stmt->fetchAll();
+    }
 }
 
 ?>
