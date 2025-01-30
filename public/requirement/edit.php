@@ -15,7 +15,7 @@ $requirement = $requirementService->getRequirementById($requirementId);
     <h1>Requirement Edit</h1>
 </div>
 <div class="content">
-    <form class="requirement-form" action="../actions/edit_requirement_action.php" method="post">
+    <form class="requirement-form" action="actions/edit_requirement_action.php" method="post">
         <input type="hidden" name="id" value="<?= $requirement['id'] ?>">
 
         <label for="title">Title</label>
@@ -85,7 +85,7 @@ $requirement = $requirementService->getRequirementById($requirementId);
 <script>
     function clickHandler(id) {
         console.log({ id });
-        fetch('../actions/remove_requirement_action.php?id=' + id, { method: 'DELETE' })
+        fetch('actions/remove_requirement_action.php?id=' + id, { method: 'DELETE' })
             .then(() => window.location.href = '../index.php')
             .catch(error => console.error('Error:', error));
     }

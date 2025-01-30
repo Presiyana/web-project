@@ -80,6 +80,8 @@ $requirements = $requirementService->getRequirementsByLayer($layerFilter);
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?= count($requirements) ? '' : 'No requirements'?>
+
 </div>
 
 <script>
