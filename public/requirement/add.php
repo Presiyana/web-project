@@ -39,8 +39,38 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
         <label for="hashtags">Hashtags:</label>
         <input type="text" id="hashtags" name="hashtags" required>
 
+        <label for="isNonFunctional">Is Non-Functional?</label>
+        <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1">
+    
+        <div id="nonFunctionalFields" style="display:none;">
+            <label for="indicator_name">Indicator Name:</label>
+            <input type="text" id="indicator_name" name="indicator_name">
+
+            <label for="unit">Unit:</label>
+            <input type="text" id="unit" name="unit">
+
+            <label for="value">Value:</label>
+            <input type="number" step="0.01" id="value" name="value">
+
+            <label for="indicator_description">Indicator Description:</label>
+            <textarea id="indicator_description" name="indicator_description"></textarea>
+        </div>
+        
         <button type="submit">Submit</button>
     </form>
 </div>
+
+<script>
+    const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
+    const nonFunctionalFields = document.getElementById('nonFunctionalFields');
+                  
+    isNonFunctionalCheckbox.addEventListener('change', () => {
+        if (isNonFunctionalCheckbox.checked) {
+            nonFunctionalFields.style.display = 'block';
+        } else {
+            nonFunctionalFields.style.display = 'none';
+        }
+    });
+</script>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>
