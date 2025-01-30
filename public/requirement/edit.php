@@ -14,9 +14,7 @@ $requirement = $requirementService->getRequirementById($requirementId);
 <div class="title">
     <h1>Requirement Edit</h1>
 </div>
-
 <div class="content">
-
     <form class="requirement-form" action="../actions/edit_requirement_action.php" method="post">
         <input type="hidden" name="id" value="<?= $requirement['id'] ?>">
 
@@ -45,7 +43,22 @@ $requirement = $requirementService->getRequirementById($requirementId);
         <label for="hashtags">Hashtags:</label>
         <input type="text" id="hashtags" name="hashtags" required value="<?= $requirement['hashtags'] ?>">
 
-        <br>
+        <label for="isNonFunctional">Is Non-Functional?</label>
+        <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1" <?= $requirement['isNonFunctional'] ? 'checked' : ''; ?>>
+
+        <div id="nonFunctionalFields" style="display: <?= $requirement['isNonFunctional'] ? 'block' : 'none'; ?>;">
+            <label for="indicator_name">Indicator Name:</label>
+            <input type="text" id="indicator_name" name="indicator_name" value="<?= $requirement['indicator_name'] ?>">
+
+            <label for="unit">Unit:</label>
+            <input type="text" id="unit" name="unit" value="<?= $requirement['unit'] ?>">
+
+            <label for="value">Value:</label>
+            <input type="number" step="0.01" id="value" name="value" value="<?= $requirement['value'] ?>">
+
+            <label for="indicator_description">Indicator Description:</label>
+            <textarea id="indicator_description" name="indicator_description"><?= $requirement['indicator_description'] ?></textarea>
+        </div>
 
         <div class="actions">
             <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)">Delete</button>
@@ -55,6 +68,19 @@ $requirement = $requirementService->getRequirementById($requirementId);
     <br>
 
 </div>
+
+<script>
+    const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
+    const nonFunctionalFields = document.getElementById('nonFunctionalFields');
+    
+    isNonFunctionalCheckbox.addEventListener('change', () => {
+        if (isNonFunctionalCheckbox.checked) {
+            nonFunctionalFields.style.display = 'block';
+        } else {
+            nonFunctionalFields.style.display = 'none';
+        }
+    });
+</script>
 
 <script>
     function clickHandler(id) {
