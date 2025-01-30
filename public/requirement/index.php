@@ -87,7 +87,7 @@ $requirements = $requirementService->getRequirementsByLayer($layerFilter);
     document.querySelectorAll('.requirement-entry').forEach(item => {
         item.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
-            window.location.href = `${id}/edit`;
+            window.location.href = `edit.php?id=${id}`;
         });
     });
 

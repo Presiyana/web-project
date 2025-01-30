@@ -22,4 +22,4 @@ $userService->register(
     $user_group
 );
 
-header('Location: ../login');
+header('Location: ../login.php');

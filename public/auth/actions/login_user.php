@@ -20,7 +20,7 @@ $authUser = $userService->login(
 );
 
 if (empty($authUser)) {
-    header('Location: ../login');
+    header('Location: ../login.php');
     exit;
 }
 
