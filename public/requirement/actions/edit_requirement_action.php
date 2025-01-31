@@ -30,14 +30,20 @@ $requirementService->editRequirementById(
     $isNonFunctional
 );
 
-if ($isNonFunctional) {
-    $requirementService->editIndicatorsForRequirement(
-        $id,
-        $indicator_name,
-        $unit,
-        $value,
-        $indicator_description
-    );
+if(!$isNonFunctional)
+{
+    $indicator_name = 'N/A';
+    $unit =  'N/A';
+    $value = 0;
+    $indicator_description = 'N/A';
 }
+
+$requirementService->editIndicatorsForRequirement(
+    $id,
+    $indicator_name,
+    $unit,
+    $value,
+    $indicator_description
+);
 
 header('Location: ../index.php');
