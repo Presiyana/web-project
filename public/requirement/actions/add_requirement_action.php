@@ -15,9 +15,17 @@ if (empty($title) || empty($description) || empty($hashtags)) {
     die();
 }
 
+if ($isNonFunctional) {
+    if (empty($_POST['indicator_name']) || empty($_POST['unit']) || empty($_POST['value']) || empty($_POST['indicator_description'])) {
+        die();
+    }
+}
+
+
 $indicator_name = $isNonFunctional ? ($_POST['indicator_name'] ?? 'N/A') : null;
 $unit = $isNonFunctional ? ($_POST['unit'] ?? 'N/A') : null;
-$value = $isNonFunctional ? ($_POST['value'] ?? 0) : null;
+// $value = $isNonFunctional ? ($_POST['value'] ?? 0) : null;
+$value = $isNonFunctional ? ($_POST['value'] ?? 'N/A') : null;
 $indicator_description = $isNonFunctional ? ($_POST['indicator_description'] ?? 'N/A') : null;
 
 

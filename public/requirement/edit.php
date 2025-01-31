@@ -81,6 +81,32 @@ $requirement = $requirementService->getRequirementById($requirementId);
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.requirement-form');
+        const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
+        const nonFunctionalFields = document.getElementById('nonFunctionalFields');
+
+        form.addEventListener('submit', function (event) {
+            if (isNonFunctionalCheckbox.checked) {
+                const indicatorName = document.getElementById('indicator_name').value.trim();
+                const unit = document.getElementById('unit').value.trim();
+                const value = document.getElementById('value').value.trim();
+                const indicatorDescription = document.getElementById('indicator_description').value.trim();
+
+                if (!indicatorName || !unit || !value || !indicatorDescription) {
+                    alert('Please fill in all non-functional requirement fields.');
+                    event.preventDefault();
+                }
+            }
+        });
+
+        isNonFunctionalCheckbox.addEventListener('change', () => {
+            nonFunctionalFields.style.display = isNonFunctionalCheckbox.checked ? 'block' : 'none';
+        });
+    });
+</script>
+
 
 <script>
     function clickHandler(id) {
