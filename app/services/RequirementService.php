@@ -159,16 +159,21 @@ class RequirementService
     {
         $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
         if ($layer && in_array($layer, $allowedLayers)) {
-            $sql = "SELECT * FROM requirements WHERE layer = :layer";
+            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+                    FROM requirements r
+                    LEFT JOIN indicators i ON r.id = i.requirement_id
+                    WHERE r.layer = :layer";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':layer' => $layer]);
         } else {
-            $sql = "SELECT * FROM `requirements`";
+            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+                    FROM requirements r
+                    LEFT JOIN indicators i ON r.id = i.requirement_id";
             $stmt = $this->db->query($sql);
         }
-
         return $stmt->fetchAll();
-    }
+}
+
 }
 
 ?>
