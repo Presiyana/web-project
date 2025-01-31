@@ -12,6 +12,13 @@ $requirements = $requirementService->getRequirementsByLayer($layerFilter);
 
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
+<?php
+$exportUrl = 'actions/export_requirements.php';
+if (isset($_GET['layer'])) {
+    $exportUrl .= '?layer=' . urlencode($_GET['layer']);
+}
+?>
+
 <div class="title">
     <h1>Requirements</h1>
 </div>
@@ -26,6 +33,8 @@ $requirements = $requirementService->getRequirementsByLayer($layerFilter);
     <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>>Test</option>
 </select>
 <button id="clearFilter" onclick="clearFilter()">Clear Filter</button>
+
+<a href="<?= $exportUrl ?>" class="export-button">Export to CSV</a>
 
 <div class="content">
     <table class="requirement-table">

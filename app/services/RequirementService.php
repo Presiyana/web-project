@@ -172,7 +172,14 @@ class RequirementService
             $stmt = $this->db->query($sql);
         }
         return $stmt->fetchAll();
-}
+    }
+
+    public function getAllRequirements()
+    {
+        $sql = "SELECT * FROM `requirements`";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll();
+    }
 
 }
 
