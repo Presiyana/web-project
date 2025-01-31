@@ -5,4 +5,4 @@ if (session_status() === PHP_SESSION_NONE) {
 
 unset($_SESSION['auth_user']);
 
-header('Location: ./login');
+header('Location: ./login.php');

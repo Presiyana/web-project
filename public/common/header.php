@@ -17,7 +17,7 @@ if (!$hasAuthUser) {
     $loggedInElementStyle = "display: none";
     $loggedOutElementStyle = "display: block";
     if (!$isOnAuthPage) {
-        header("Location: " . BASE_URL . "auth/login");
+        header("Location: " . BASE_URL . "auth/login.php");
         exit;
     }
 } else {
@@ -48,23 +48,23 @@ if (!$hasAuthUser) {
     <header>
         <h3 id="page-title">Requirements portal</h3>
         <nav>
-            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/login">
+            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/login.php">
                 Login
             </a>
-            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/register">
+            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/register.php">
                 Register
             </a>
 
             <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement">
                 Requirements
             </a>
-            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement/add">
+            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement/add.php">
                 Add Requirement
             </a>
 
             <div class="logged-in" style="<?= $loggedInElementStyle ?>" id="userDetails">
                 <span id="hello-user">Hello <?= $userName ?></span>
-                <a href="<?= BASE_URL ?>auth/logout">Logout</a>
+                <a href="<?= BASE_URL ?>auth/logout.php">Logout</a>
             </div>
         </nav>
     </header>

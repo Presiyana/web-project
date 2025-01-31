@@ -7,7 +7,7 @@ $isOnAuthPage = in_array($currentRoute, ['login.php', 'register.php']);
 $hasAuthUser = isset($_SESSION['auth_user']);
 
 if (!$hasAuthUser && !$isOnAuthPage) {
-    header("Location: " . BASE_URL . "auth/login");
+    header("Location: " . BASE_URL . "auth/login.php");
 }
 
 if ($hasAuthUser && $isOnAuthPage) {

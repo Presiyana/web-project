@@ -45,6 +45,11 @@ if (isset($_GET['layer'])) {
                 <th>description</th>
                 <th>priority</th>
                 <th>layer</th>
+                <th>Is Non-Functional</th>
+                <th>Indicator Name</th>
+                <th>Unit</th>
+                <th>Value</th>
+                <th>Indicator Description</th>
             </tr>
         </thead>
         <tbody id="requirementsBody">
@@ -65,10 +70,27 @@ if (isset($_GET['layer'])) {
                     <td>
                         <?= $requirement['layer']; ?>
                     </td>
+                    <td>
+                        <?= $requirement['isNonFunctional'] ? 'Yes' : 'No'; ?>
+                    </td>
+                    <td>
+                         <?= $requirement['indicator_name'] ?? 'N/A'; ?>
+                    </td>
+                    <td>
+                        <?= $requirement['unit'] ?? 'N/A'; ?>
+                    </td>
+                    <td>
+                        <?= $requirement['value'] ?? 'N/A'; ?>
+                    </td>
+                    <td>
+                        <?= $requirement['indicator_description'] ?? 'N/A'; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?= count($requirements) ? '' : 'No requirements'?>
+
 </div>
 
 <script>
@@ -76,7 +98,7 @@ if (isset($_GET['layer'])) {
     document.querySelectorAll('.requirement-entry').forEach(item => {
         item.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
-            window.location.href = `${id}/edit`;
+            window.location.href = `edit.php?id=${id}`;
         });
     });
 
