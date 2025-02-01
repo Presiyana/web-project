@@ -11,30 +11,48 @@ if ($layerFilter) {
     $requirements = $requirementService->getAllRequirements();
 }
 
+if (empty($requirements)) {
+    die("No requirements found. Check database query.");
+}
+
 $filename = 'requirements_export_' . ($layerFilter ? $layerFilter . '_' : '') . date('Y-m-d') . '.csv';
-// Set headers for CSV download
+
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 
-// Open output stream
 $output = fopen('php://output', 'w');
 
-// Add CSV headers
-fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Created At']);
+fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Indicator Name', 'Unit', 'Value', 'Indicator Description', 'Created At']);
 
-// Add data rows
-foreach ($requirements as $requirement) {
+
+$currentRequirementId = null;
+foreach ($requirements as $row) {
+
+    if (!array_key_exists('indicator_name', $row)) {
+        error_log("Warning: 'indicator_name' missing for requirement ID " . $row['id']);
+    }
+
+    $isNonFunctional = $row['isNonFunctional'] ?? false;
+    $indicatorName = $row['indicator_name'] ?? 'N/A';
+    $indicatorUnit = $row['unit'] ?? 'N/A';
+    $indicatorValue = $row['value'] ?? 'N/A';
+    $indicatorDescription = $row['indicator_description'] ?? 'N/A';
+
     fputcsv($output, [
-        $requirement['id'],
-        $requirement['title'],
-        $requirement['description'],
-        $requirement['hashtags'],
-        $requirement['priority'],
-        $requirement['layer'],
-        $requirement['created_at']
-    ]);
+        $row['id'],
+        $row['title'],
+        $row['description'],
+        $row['hashtags'],
+        $row['priority'],
+        $row['layer'],
+        $isNonFunctional ? 'Yes' : 'No', 
+        $isNonFunctional ? $indicatorName : 'N/A',
+        $isNonFunctional ? $indicatorUnit : 'N/A',
+        $isNonFunctional ? $indicatorValue : 'N/A',
+        $isNonFunctional ? $indicatorDescription : 'N/A',
+        $row['created_at'] 
+    ]); 
 }
 
-// Close output stream
 fclose($output);
 exit;
