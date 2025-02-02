@@ -48,18 +48,12 @@ if (!$hasAuthUser) {
     <header>
         <h3 id="page-title">Requirements portal</h3>
         <nav>
-            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/login.php">
-                Login
-            </a>
-            <a class="logged-out" style="<?= $loggedOutElementStyle ?>" href="<?= BASE_URL ?>auth/register.php">
-                Register
-            </a>
 
             <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement">
                 Requirements
             </a>
-            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement/add.php">
-                Add Requirement
+            <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>task">
+                Tasks
             </a>
 
             <div class="logged-in" style="<?= $loggedInElementStyle ?>" id="userDetails">
@@ -68,5 +62,25 @@ if (!$hasAuthUser) {
             </div>
         </nav>
     </header>
+
+    <div id="message"></div>
+
+    <script>
+        const messageContainer = document.getElementById('message');
+        messageContainer.style.display = 'none';
+
+        const queryParams = document.location.search
+            .slice(1).split('&')
+            .map(d => d.split('='))
+            .map(([key, value]) => ({ key, value }));
+
+        const messageData = queryParams.find(qp => qp.key === 'message');
+        if (messageData) {
+            messageContainer.style.display = 'block';
+            messageContainer.innerHTML = decodeURIComponent(messageData.value);
+
+            setTimeout(() => { messageContainer.style.display = 'none'; }, 5_000)
+        }
+    </script>
 
     <main>

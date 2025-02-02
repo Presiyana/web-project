@@ -9,11 +9,11 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
 
-<div class="title">
+<div class="title-container">
     <h1>Create a requirement</h1>
 </div>
 <div class="content">
-    <form class="requirement-form" action="actions/add_requirement_action.php" method="post">
+    <form class="box" class="requirement-form" action="actions/add_requirement_action.php" method="post">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" required>
 

@@ -7,6 +7,10 @@ header {
     color: var(--white);
     padding: 20px;
     font-size: 24px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 nav {
@@ -27,4 +31,17 @@ nav #userDetails {
     margin-left: 20px;
     display: flex;
     gap: 20px;
+}
+
+#message {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid var(--main-color);
+    color: var(--main-color);
 }

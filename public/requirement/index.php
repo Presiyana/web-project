@@ -13,28 +13,41 @@ $requirements = $requirementService->getRequirementsByLayer($layerFilter);
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
 <?php
-$exportUrl = 'actions/export_requirements.php';
-if (isset($_GET['layer'])) {
-    $exportUrl .= '?layer=' . urlencode($_GET['layer']);
+$exportUrl = '.';
+if (count($requirements)) {
+    $exportUrl = 'actions/export_requirements.php';
+    if (isset($_GET['layer'])) {
+        $exportUrl .= '?layer=' . urlencode($_GET['layer']);
+    }
 }
 ?>
 
-<div class="title">
+<div class="title-container">
     <h1>Requirements</h1>
+    <div class="actions">
+        <a class="button" href="./add.php">Add Requirement</a>
+        <a class="button <?= count($requirements) ? '' : 'disabled' ?>" href="<?= $exportUrl ?>" class="export-button">Export to CSV</a>
+    </div>
 </div>
 
-<label for="layerFilter">Filter by Layer:</label>
-<select id="layerFilter">
-    <option value="">All</option>
-    <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>>Client</option>
-    <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>>Routing</option>
-    <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>>Business</option>
-    <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>>DB</option>
-    <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>>Test</option>
-</select>
-<button id="clearFilter" onclick="clearFilter()">Clear Filter</button>
-
-<a href="<?= $exportUrl ?>" class="export-button">Export to CSV</a>
+<div class="filters-container">
+    <div class="filters">
+        <div class="filter">
+            <label for="layerFilter">Filter by Layer:</label>
+            <select id="layerFilter">
+                <option value="">All</option>
+                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>>Client</option>
+                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>>Routing</option>
+                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>>Business</option>
+                <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>>DB</option>
+                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>>Test</option>
+            </select>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="clearFilter" onclick="clearFilter()">Clear Filter</button>
+    </div>
+</div>
 
 <div class="content">
     <table class="requirement-table">
@@ -54,7 +67,8 @@ if (isset($_GET['layer'])) {
         </thead>
         <tbody id="requirementsBody">
             <?php foreach ($requirements as $idx => $requirement): ?>
-                <tr class="requirement-entry" data-id="<?= $requirement['id']; ?>" data-layer="<?= $requirement['layer']; ?>">
+                <tr class="requirement-entry" data-id="<?= $requirement['id']; ?>"
+                    data-layer="<?= $requirement['layer']; ?>">
                     <td>
                         <?= $idx + 1 ?>
                     </td>
@@ -74,7 +88,7 @@ if (isset($_GET['layer'])) {
                         <?= $requirement['isNonFunctional'] ? 'Yes' : 'No'; ?>
                     </td>
                     <td>
-                         <?= $requirement['indicator_name'] ?? 'N/A'; ?>
+                        <?= $requirement['indicator_name'] ?? 'N/A'; ?>
                     </td>
                     <td>
                         <?= $requirement['unit'] ?? 'N/A'; ?>
@@ -89,7 +103,7 @@ if (isset($_GET['layer'])) {
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($requirements) ? '' : 'No requirements'?>
+    <?= count($requirements) ? '' : 'No requirements' ?>
 
 </div>
 
@@ -98,7 +112,7 @@ if (isset($_GET['layer'])) {
     document.querySelectorAll('.requirement-entry').forEach(item => {
         item.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
-            window.location.href = `edit.php?id=${id}`;
+            window.location.href = `details.php?id=${id}`;
         });
     });
 

@@ -11,11 +11,11 @@ $requirement = $requirementService->getRequirementById($requirementId);
 
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
-<div class="title">
-    <h1>Requirement Edit</h1>
+<div class="title-container">
+    <h1>Edit requirement #<?= $requirement['id'] ?></h1>
 </div>
 <div class="content">
-    <form class="requirement-form" action="actions/edit_requirement_action.php" method="post">
+    <form class="box" class="requirement-form" action="actions/edit_requirement_action.php" method="post">
         <input type="hidden" name="id" value="<?= $requirement['id'] ?>">
 
         <label for="title">Title</label>
@@ -61,8 +61,8 @@ $requirement = $requirementService->getRequirementById($requirementId);
         </div>
 
         <div class="actions">
-            <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)">Delete</button>
             <button type="submit">Submit</button>
+            <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)">Delete</button>
         </div>
     </form>
     <br>
@@ -110,7 +110,6 @@ $requirement = $requirementService->getRequirementById($requirementId);
 
 <script>
     function clickHandler(id) {
-        console.log({ id });
         fetch('actions/remove_requirement_action.php?id=' + id, { method: 'DELETE' })
             .then(() => window.location.href = '../index.php')
             .catch(error => console.error('Error:', error));

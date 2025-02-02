@@ -105,7 +105,9 @@ class RequirementService
         $layer,
         $isNonFunctional
     ) {
-        $sql = "UPDATE `requirements` SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional WHERE `id` = :id";
+        $sql = "UPDATE `requirements`
+                SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional
+                WHERE `id` = :id";
         $stmp = $this->db->prepare($sql);
         $stmp->execute([
             ':title' => $title,

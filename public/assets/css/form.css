@@ -1,12 +1,3 @@
-form {
-    max-width: 800px;
-    margin: 20px auto;
-    background: var(--white);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px var(--black-opaque);
-}
-
 form h2 {
     margin-bottom: 20px;
     font-size: 28px;
@@ -68,6 +59,13 @@ button {
     font-weight: bold;
 }
 
+button.small {
+    font-size: inherit;
+    width: unset;
+    margin: 0;
+    font-weight: inherit;
+}
+
 button:hover {
     background-color: var(--main-color-secondary);
 }
@@ -96,6 +94,16 @@ button:hover {
 button.delete {
     background-color: var(--danger);
 }
+
 button.delete:hover {
     background-color: var(--danger-secondary);
+}
+
+.secondaryContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
