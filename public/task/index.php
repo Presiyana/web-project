@@ -3,9 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$authUser = $_SESSION['auth_user'];
+
 require_once __DIR__ . '/../../app/services/TaskService.php';
 $taskService = TaskService::getInstance();
-$tasks = $taskService->getTasks();
+$tasks = $taskService->getTasks(
+    $authUser['user_group'] === 'teacher' ? '': $authUser['user_group'],
+);
 
 ?>
 
@@ -13,9 +17,12 @@ $tasks = $taskService->getTasks();
 
 <div class="title-container">
     <h1>Tasks</h1>
-    <div class="actions">
-        <a class="button" href="./add.php">Add Task</a>
-    </div>
+
+    <?php if ($authUser['user_group'] === 'teacher'): ?>
+        <div class="actions">
+            <a class="button" href="./add.php">Add Task</a>
+        </div>
+    <?php endif; ?>
 </div>
 
 <div class="content">
@@ -23,8 +30,10 @@ $tasks = $taskService->getTasks();
         <thead>
             <tr>
                 <th>#</th>
-                <th>title</th>
-                <th>User Group</th>
+                <th>Title</th>
+                <?php if ($authUser['user_group'] === 'teacher'): ?>
+                    <th>User Group</th>
+                <?php endif; ?>
                 <th>Creator</th>
                 <th>Status</th>
             </tr>
@@ -38,14 +47,18 @@ $tasks = $taskService->getTasks();
                     <td>
                         <?= $task['title']; ?>
                     </td>
-                    <td>
-                        <?= $task['user_group']; ?>
-                    </td>
+                    <?php if ($authUser['user_group'] === 'teacher'): ?>
+                        <td>
+                            <?= $task['user_group']; ?>
+                        </td>
+                    <?php endif; ?>
                     <td>
                         <?= $task['email']; ?>
                     </td>
                     <td>
-                        <?= $task['status'] === "complete" ? "Completed" : "In progress"; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] > 0 ? "Completed" : ""; ?>
+                        <?= $task['pendingCount'] > 0 ? "In progress" : ""; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] === 0 ? "No requirements" : ""; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

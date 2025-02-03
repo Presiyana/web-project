@@ -18,11 +18,16 @@ class TaskService
         $this->db = DatabaseConnection::getInstance()->getConnection();
     }
 
-    public function getTasks()
+    public function getTasks($user_group = "")
     {
-        $sql = "SELECT t.*, u.email
+        $sql = "SELECT t.*, u.email, 
+                    (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'in_progress') AS pendingCount, 
+                    (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'complete') AS completedCount
                 FROM `tasks` t
                 LEFT JOIN `users` u ON t.user_id = u.id";
+        if ($user_group) {
+            $sql .= " WHERE t.user_group = '" . $user_group . "'";
+        }
         $stmt = $this->db->query($sql);
         $result = $stmt->fetchAll();
         return $result;
@@ -84,12 +89,16 @@ class TaskService
         return $result;
     }
 
-    public function getTaskRequirementsWithRequirementData($id)
+    public function getTaskRequirementsWithRequirementData(
+        $id,
+        $nonFunctional
+    )
     {
         $sql = "SELECT tr.*, r.title
                 FROM `taskRequirements` tr
                 LEFT JOIN `requirements` r ON r.id = tr.requirement_id
-                WHERE task_id = " . $id;
+                WHERE task_id = " . $id . " AND r.isNonFunctional = " . ($nonFunctional ? 1 : 0);
+
         $stmt = $this->db->query($sql);
         $result = $stmt->fetchAll();
         return $result;

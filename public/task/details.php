@@ -3,12 +3,15 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$authUser = $_SESSION['auth_user'];
+
 require_once __DIR__ . '/../../app/services/TaskService.php';
 $taskService = TaskService::getInstance();
 $taskId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $task = $taskService->getTaskById($taskId);
 
-$taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id']);
+$taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], False);
+$nonFunctionaltaskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], True);
 ?>
 
 <?php require_once __DIR__ . '/../common/header.php'; ?>
@@ -16,9 +19,11 @@ $taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['
 
 <div class="title-container">
     <h1>Task #<?= $task['id'] ?></h1>
-    <div class="actions">
-        <a class="button" href="./edit.php?id=<?= $task['id'] ?>">Edit</a>
-    </div>
+    <?php if ($authUser['user_group'] === 'teacher'): ?>
+        <div class="actions">
+            <a class="button" href="./edit.php?id=<?= $task['id'] ?>">Edit</a>
+        </div>
+    <?php endif; ?>
 </div>
 <div class="content">
     <form class="box">
@@ -36,11 +41,17 @@ $taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['
     </form>
 
 
-    <div class="title-container">
+    <div class="title-container secondary">
         <h1>Task requirements</h1>
-        <div class="actions">
-            <a class="button" href="./add_requirement.php?id=<?= $task['id'] ?>">Add requirement</a>
-        </div>
+        <?php if ($authUser['user_group'] === 'teacher'): ?>
+            <div class="actions">
+                <a class="button" href="./add_requirement.php?id=<?= $task['id'] ?>">Add requirement</a>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="taks-sub-title">
+        <h2>Functional</h2>
     </div>
     <table class="task-table">
         <thead>
@@ -72,7 +83,42 @@ $taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($taskRequirements) ? '' : 'No task requirements' ?>
+    <?= count($taskRequirements) ? '' : 'No functional task requirements' ?>
+
+    <div class="taks-sub-title">
+        <h2>Non-Functional</h2>
+    </div>
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tasksBody">
+            <?php foreach ($nonFunctionaltaskRequirements as $idx => $taskRequirement): ?>
+                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>">
+                    <td>
+                        <?= $idx + 1 ?>
+                    </td>
+                    <td>
+                        <?= $taskRequirement['title']; ?>
+                    </td>
+                    <td>
+                        <?= $taskRequirement['status'] === "complete" ? "Completed" : "In progress"; ?>
+                    </td>
+
+                    <td>
+                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>">Toggle
+                            completion</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?= count($nonFunctionaltaskRequirements) ? '' : 'No non-functional task requirements' ?>
 </div>
 
 <script>

@@ -3,6 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$authUser = $_SESSION['auth_user'];
+
+if (!isset($authUser) || $authUser['user_group'] !== 'teacher') {
+    header('Location: ./index.php');
+    die();
+}
+
 require_once __DIR__ . '/../../app/services/TaskService.php';
 require_once __DIR__ . '/../../app/services/RequirementService.php';
 $taskService = TaskService::getInstance();
