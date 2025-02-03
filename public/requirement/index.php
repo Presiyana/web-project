@@ -27,8 +27,16 @@ if (count($requirements)) {
     <div class="actions">
         <a class="button" href="./add.php">Add Requirement</a>
         <a class="button <?= count($requirements) ? '' : 'disabled' ?>" href="<?= $exportUrl ?>" class="export-button">Export to CSV</a>
+        <a class="button" href="#" id="importButton">Import from CSV</a>
+
+        <form id="csvUploadForm" enctype="multipart/form-data" style="display: inline;">
+        <input type="file" id="csvFile" name="csvFile" accept=".csv" required style="display: none;">
+        <button type="submit" id="submitButton" style="display: none;">Import the selected file</button>
+        </form>
     </div>
 </div>
+
+<div id="uploadStatus"></div>
 
 <div class="filters-container">
     <div class="filters">
@@ -137,6 +145,71 @@ if (count($requirements)) {
         url.searchParams.delete('layer');
         window.location.href = url.toString();
     }
+
+    document.getElementById("csvUploadForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var formData = new FormData();
+        var fileInput = document.getElementById("csvFile");
+
+        if (fileInput.files.length === 0) {
+            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'>Please select a CSV file.</p>";
+            return;
+        }
+
+        formData.append("csvFile", fileInput.files[0]);
+
+        fetch("actions/import_requirements.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("uploadStatus").innerHTML = `<p style='color: green;'>${data.message}</p>`;
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                let errorMessage = `<p style='color: red;'>${data.message}</p>`;
+                if (data.errors) {
+                    errorMessage += "<ul>";
+                    data.errors.forEach(error => {
+                        errorMessage += `<li>${error}</li>`;
+                    });
+                    errorMessage += "</ul>";
+                }
+                document.getElementById("uploadStatus").innerHTML = errorMessage;
+            }
+        })
+        .catch(error => {
+            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'>Error uploading file.</p>";
+        });
+    });
+
+    const importButton = document.getElementById('importButton');
+    const fileInput = document.getElementById('csvFile');
+    const submitButton = document.getElementById('submitButton');
+    const form = document.getElementById('csvUploadForm');
+
+    
+    importButton.addEventListener('click', function(e) {
+        e.preventDefault();  
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+            submitButton.style.display = 'inline';
+        } else {
+            submitButton.style.display = 'none'; 
+        }
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('File uploaded successfully!');
+    });
 </script>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>
