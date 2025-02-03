@@ -20,7 +20,9 @@ class TaskService
 
     public function getTasks()
     {
-        $sql = "SELECT t.*, u.email
+        $sql = "SELECT t.*, u.email, 
+                    (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'in_progress') AS pendingCount, 
+                    (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'complete') AS completedCount
                 FROM `tasks` t
                 LEFT JOIN `users` u ON t.user_id = u.id";
         $stmt = $this->db->query($sql);

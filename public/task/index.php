@@ -23,7 +23,7 @@ $tasks = $taskService->getTasks();
         <thead>
             <tr>
                 <th>#</th>
-                <th>title</th>
+                <th>Title</th>
                 <th>User Group</th>
                 <th>Creator</th>
                 <th>Status</th>
@@ -45,7 +45,9 @@ $tasks = $taskService->getTasks();
                         <?= $task['email']; ?>
                     </td>
                     <td>
-                        <?= $task['status'] === "complete" ? "Completed" : "In progress"; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] > 0 ? "Completed" : ""; ?>
+                        <?= $task['pendingCount'] > 0 ? "In progress" : ""; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] === 0 ? "No requirements" : ""; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
