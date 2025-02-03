@@ -41,7 +41,7 @@ if(!$isNonFunctional)
 {
     $indicator_name = 'N/A';
     $unit =  'N/A';
-    $value = 0;
+    $value = 'N/A';
     $indicator_description = 'N/A';
 }
 
