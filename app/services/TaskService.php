@@ -18,13 +18,16 @@ class TaskService
         $this->db = DatabaseConnection::getInstance()->getConnection();
     }
 
-    public function getTasks()
+    public function getTasks($user_group = "")
     {
         $sql = "SELECT t.*, u.email, 
                     (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'in_progress') AS pendingCount, 
                     (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'complete') AS completedCount
                 FROM `tasks` t
                 LEFT JOIN `users` u ON t.user_id = u.id";
+        if ($user_group) {
+            $sql .= " WHERE t.user_group = '" . $user_group . "'";
+        }
         $stmt = $this->db->query($sql);
         $result = $stmt->fetchAll();
         return $result;

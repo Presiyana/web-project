@@ -7,7 +7,8 @@ require_once __DIR__ . '/../../../app/services/TaskService.php';
 
 $authUser = $_SESSION['auth_user'];
 
-if (!isset($authUser)) {
+if (!isset($authUser) || $authUser['user_group'] !== 'teacher') {
+    header('Location: ../index.php');
     die();
 }
 
