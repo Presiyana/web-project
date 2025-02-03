@@ -61,7 +61,7 @@ class RequirementService
     {
         $indicator_name = $indicator_name ?? 'N/A';
         $unit = $unit ?? 'N/A';
-        $value = $value ?? 0;
+        $value = $value ?? 'N/A';
         $indicator_description = $indicator_description ?? 'N/A';
     
         $sql = "INSERT INTO `indicators` (`requirement_id`, `indicator_name`, `unit`, `value`, `indicator_description`) 
@@ -103,12 +103,14 @@ class RequirementService
         $hashtags,
         $priority,
         $layer,
-        $isNonFunctional
+        $isNonFunctional,
+        $indicators = []
     ) {
         $sql = "UPDATE `requirements`
                 SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional
                 WHERE `id` = :id";
         $stmp = $this->db->prepare($sql);
+
         $stmp->execute([
             ':title' => $title,
             ':description' => $description,
@@ -118,6 +120,18 @@ class RequirementService
             ':isNonFunctional' => (int)$isNonFunctional,
             ':id' => $id,
         ]);
+
+        // $requirementId = $this->db->lastInsertId();
+
+        if ($isNonFunctional && !empty($indicators)) {
+            $this->addIndicatorForRequirement(
+                $id,
+                $indicators['indicator_name'],
+                $indicators['unit'],
+                $indicators['value'],
+                $indicators['indicator_description']
+            );
+        }
     }
 
     public function editIndicatorsForRequirement(
@@ -130,7 +144,7 @@ class RequirementService
 
         $indicator_name = $indicator_name ?? 'N/A';
         $unit = $unit ?? 'N/A';
-        $value = $value ?? 0;
+        $value = $value ?? 'N/A';
         $indicator_description = $indicator_description ?? 'N/A';
     
         $sql = "UPDATE `indicators` 
