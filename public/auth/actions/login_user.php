@@ -20,7 +20,7 @@ $authUser = $userService->login(
 );
 
 if (empty($authUser)) {
-    header('Location: ../login.php');
+    header('Location: ../login.php?message=Wrong login details');
     exit;
 }
 

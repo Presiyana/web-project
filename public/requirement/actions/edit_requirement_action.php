@@ -53,4 +53,4 @@ $requirementService->editIndicatorsForRequirement(
     $indicator_description
 );
 
-header('Location: ../index.php');
+header('Location: ../details.php?id='.$id);

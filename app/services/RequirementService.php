@@ -105,7 +105,9 @@ class RequirementService
         $layer,
         $isNonFunctional
     ) {
-        $sql = "UPDATE `requirements` SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional WHERE `id` = :id";
+        $sql = "UPDATE `requirements`
+                SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional
+                WHERE `id` = :id";
         $stmp = $this->db->prepare($sql);
         $stmp->execute([
             ':title' => $title,
@@ -162,13 +164,15 @@ class RequirementService
             $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
                     LEFT JOIN indicators i ON r.id = i.requirement_id
-                    WHERE r.layer = :layer";
+                    WHERE r.layer = :layer
+                    ORDER BY r.id ASC";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':layer' => $layer]);
         } else {
             $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
-                    LEFT JOIN indicators i ON r.id = i.requirement_id";
+                    LEFT JOIN indicators i ON r.id = i.requirement_id
+                    ORDER BY r.id ASC";
             $stmt = $this->db->query($sql);
         }
         return $stmt->fetchAll();
@@ -176,7 +180,10 @@ class RequirementService
 
     public function getAllRequirements()
     {
-        $sql = "SELECT * FROM `requirements`";
+        $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+            FROM requirements r
+            LEFT JOIN indicators i ON r.id = i.requirement_id
+            ORDER BY r.id ASC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }

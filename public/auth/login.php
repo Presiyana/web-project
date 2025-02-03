@@ -7,16 +7,19 @@ require_once __DIR__ . '/../../app/services/UserService.php';
 
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
-<div class="title">
+<div class="title-container">
     <h1>Login</h1>
 </div>
 <div class="content">
-    <form id="registerForm" action="actions/login_user.php" method="post">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
+    <form class="box" id="registerForm" action="actions/login_user.php" method="post">
+        <input type="email" name="email" placeholder="Email" required value="test@test.com">
+        <input type="password" name="password" placeholder="Password" required value="123">
         <button type="submit">Login</button>
     </form>
-<div id="registerMessage"></div>
+</div>
+<div class="secondaryContainer">
+    <span>or</span>
+    <a href="./register.php">Register</a>
 </div>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>
