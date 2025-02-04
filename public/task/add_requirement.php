@@ -33,13 +33,13 @@ $requirements = $requirementService->getRequirements();
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
 <div class="title-container">
-    <h1>Add requirement to task #<?= $taskId; ?></h1>
+    <h1><?= $translations['add_requirement_to_task']; ?><?= $taskId; ?></h1>
 </div>
 <div class="content">
     <form class="box" class="task-form" action="actions/add_task_requirement_action.php" method="post">
         <input type="hidden" name="id" value="<?= $task['id'] ?>">
 
-        <label for="requirement">Requirement</label>
+        <label for="requirement"><?= $translations['requirement']; ?></label>
         <select name="requirement" id="requirement" required>
 
             <?php foreach ($requirements as $idx => $requirement): ?>
@@ -52,7 +52,7 @@ $requirements = $requirementService->getRequirements();
             <?php endforeach; ?>
         </select>
 
-        <button type="submit">Submit</button>
+        <button type="submit"><?= $translations['submit']; ?></button>
     </form>
 </div>
 

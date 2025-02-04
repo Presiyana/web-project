@@ -9,8 +9,9 @@ $layerFilter = $_GET['layer'] ?? null;
 $requirements = $requirementService->getRequirementsByLayer($layerFilter);
 
 ?>
-
+<?php require_once __DIR__ . '/../../app/config/lang_config.php'; ?>
 <?php require_once __DIR__ . '/../common/header.php'; ?>
+
 
 <?php
 $exportUrl = '.';
@@ -23,11 +24,11 @@ if (count($requirements)) {
 ?>
 
 <div class="title-container">
-    <h1>Requirements</h1>
+    <h1><?= $translations['add_requirement']; ?></h1>
     <div class="actions">
-        <a class="button" href="./add.php">Add Requirement</a>
-        <a class="button <?= count($requirements) ? '' : 'disabled' ?>" href="<?= $exportUrl ?>" class="export-button">Export to CSV</a>
-        <a class="button" href="#" id="importButton">Import from CSV</a>
+        <a class="button" href="./add.php"><?= $translations['add_requirement']; ?></a>
+        <a class="button <?= count($requirements) ? '' : 'disabled' ?>" href="<?= $exportUrl ?>" class="export-button"><?= $translations['export_csv']; ?></a>
+        <a class="button" href="#" id="importButton"><?= $translations['import_csv']; ?></a>
 
         <form id="csvUploadForm" enctype="multipart/form-data" style="display: inline;">
         <input type="file" id="csvFile" name="csvFile" accept=".csv" required style="display: none;">
@@ -39,21 +40,21 @@ if (count($requirements)) {
 <div id="uploadStatus"></div>
 
 <div class="filters-container">
-    <div class="filters">
+<div class="filters">
         <div class="filter">
-            <label for="layerFilter">Filter by Layer:</label>
+            <label for="layerFilter"><?= $translations['filter_by_layer']; ?></label>
             <select id="layerFilter">
-                <option value="">All</option>
-                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>>Client</option>
-                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>>Routing</option>
-                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>>Business</option>
-                <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>>DB</option>
-                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>>Test</option>
+                <option value=""><?= $translations['all']; ?></option>
+                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>><?= $translations['client']; ?></option>
+                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>><?= $translations['routing']; ?></option>
+                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>><?= $translations['business']; ?></option>
+                <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>><?= $translations['db']; ?></option>
+                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?></option>
             </select>
         </div>
     </div>
     <div class="controls">
-        <button id="clearFilter" onclick="clearFilter()">Clear Filter</button>
+        <button id="clearFilter" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
     </div>
 </div>
 
@@ -62,15 +63,15 @@ if (count($requirements)) {
         <thead>
             <tr>
                 <th>#</th>
-                <th>title</th>
-                <th>description</th>
-                <th>priority</th>
-                <th>layer</th>
-                <th>Is Non-Functional</th>
-                <th>Indicator Name</th>
-                <th>Unit</th>
-                <th>Value</th>
-                <th>Indicator Description</th>
+                <th><?= $translations['title']; ?></th>
+                <th><?= $translations['description']; ?></th>
+                <th><?= $translations['priority']; ?></th>
+                <th><?= $translations['layer']; ?></th>
+                <th><?= $translations['is_non_functional']; ?></th>
+                <th><?= $translations['indicator_name']; ?></th>
+                <th><?= $translations['unit']; ?></th>
+                <th><?= $translations['value']; ?></th>
+                <th><?= $translations['indicator_description']; ?></th>
             </tr>
         </thead>
         <tbody id="requirementsBody">

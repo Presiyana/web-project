@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/../../app/config/config.php';
+require_once __DIR__ . '/../../app/config/lang_config.php';
 
 $currentRoute = basename($_SERVER['PHP_SELF']);
 $isOnAuthPage = in_array($currentRoute, ['login.php', 'register.php']);
@@ -32,7 +33,7 @@ if (!$hasAuthUser) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $lang ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -46,19 +47,28 @@ if (!$hasAuthUser) {
 
 <body>
     <header>
-        <h3 id="page-title">Requirements portal</h3>
+    <h3 id="page-title"><?= $translations['page_title'] ?? 'Requirements Portal' ?></h3>
         <nav>
 
             <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>requirement">
-                Requirements
+                <?= $translations['requirements'] ?? 'Requirements' ?>
             </a>
             <a class="logged-in" style="<?= $loggedInElementStyle ?>" href="<?= BASE_URL ?>task">
-                Tasks
+                <?= $translations['tasks'] ?? 'Tasks' ?>
             </a>
 
+            <form method="GET" action="" style="display: inline;">
+                <select name="lang" onchange="this.form.submit()">
+                    <option value="en" <?= ($lang === 'en') ? 'selected' : '' ?>>English</option>
+                    <option value="fr" <?= ($lang === 'fr') ? 'selected' : '' ?>>Français</option>
+                    <option value="de" <?= ($lang === 'de') ? 'selected' : '' ?>>Deutsch</option>
+                    <option value="bul" <?= ($lang === 'bul') ? 'selected' : '' ?>>Български</option>
+                </select>
+            </form>
+
             <div class="logged-in" style="<?= $loggedInElementStyle ?>" id="userDetails">
-                <span id="hello-user">Hello <?= $userName ?></span>
-                <a href="<?= BASE_URL ?>auth/logout.php">Logout</a>
+                <span id="hello-user"><?= $translations['hello'] ?? 'Hello' ?> <?= $userName ?></span>
+                <a href="<?= BASE_URL ?>auth/logout.php"><?= $translations['logout'] ?? 'Logout' ?></a>
             </div>
         </nav>
     </header>
