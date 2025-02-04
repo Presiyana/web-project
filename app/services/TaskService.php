@@ -44,6 +44,7 @@ class TaskService
 
         $task = $stmp->fetch(PDO::FETCH_ASSOC);
 
+        
         if (!$task) {
             throw new Exception('task not found');
         }
@@ -95,6 +96,20 @@ class TaskService
     )
     {
         $sql = "SELECT tr.*, r.title
+            FROM `taskRequirements` tr
+            LEFT JOIN `requirements` r ON r.id = tr.requirement_id
+            WHERE tr.task_id = :task_id AND r.isNonFunctional = :isNonFunctional";
+    
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':task_id' => $id,
+            ':isNonFunctional' => $nonFunctional ? 1 : 0
+        ]);
+    
+        return $stmt->fetchAll();
+
+        /*
+        $sql = "SELECT tr.*, r.title
                 FROM `taskRequirements` tr
                 LEFT JOIN `requirements` r ON r.id = tr.requirement_id
                 WHERE task_id = " . $id . " AND r.isNonFunctional = " . ($nonFunctional ? 1 : 0);
@@ -102,6 +117,7 @@ class TaskService
         $stmt = $this->db->query($sql);
         $result = $stmt->fetchAll();
         return $result;
+        */
     }
 
     public function addTaskRequirement(

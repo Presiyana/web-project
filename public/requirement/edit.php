@@ -12,57 +12,57 @@ $requirement = $requirementService->getRequirementById($requirementId);
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
 <div class="title-container">
-    <h1>Edit requirement #<?= $requirement['id'] ?></h1>
+    <h1><?= $translations['edit_req']; ?><?= $requirement['id'] ?></h1>
 </div>
 <div class="content">
     <form class="box" class="requirement-form" action="actions/edit_requirement_action.php" method="post">
         <input type="hidden" name="id" value="<?= $requirement['id'] ?>">
 
-        <label for="title">Title</label>
+        <label for="title"><?= $translations['title']; ?></label>
         <input type="text" id="title" name="title" required value="<?= $requirement['title'] ?>">
 
-        <label for="description">Description:</label>
+        <label for="description"><?= $translations['description']; ?></label>
         <input type="text" id="description" name="description" required value="<?= $requirement['description'] ?>">
 
-        <label for="priority">Priority:</label>
+        <label for="priority"><?= $translations['priority']; ?></label>
         <select name="priority" id="priority">
-            <option value="high" <?= ($requirement['priority'] === "high") ? "selected" : ""; ?>>High</option>
-            <option value="medium" <?= ($requirement['priority'] === "medium") ? "selected" : ""; ?>>Medium</option>
-            <option value="low" <?= ($requirement['priority'] === "low") ? "selected" : ""; ?>>Low</option>
+            <option value="high" <?= ($requirement['priority'] === "high") ? "selected" : ""; ?>><?= $translations['high']; ?></option>
+            <option value="medium" <?= ($requirement['priority'] === "medium") ? "selected" : ""; ?>><?= $translations['medium']; ?></option>
+            <option value="low" <?= ($requirement['priority'] === "low") ? "selected" : ""; ?>><?= $translations['low']; ?></option>
         </select>
 
-        <label for="layer">Layer:</label>
+        <label for="layer"><?= $translations['layer']; ?></label>
         <select name="layer" id="layer">
-            <option value="client" <?= ($requirement['layer'] === "client") ? "selected" : ""; ?>>Client</option>
-            <option value="routing" <?= ($requirement['layer'] === "routing") ? "selected" : ""; ?>>Routing</option>
-            <option value="business" <?= ($requirement['layer'] === "business") ? "selected" : ""; ?>>Business</option>
-            <option value="db" <?= ($requirement['layer'] === "db") ? "selected" : ""; ?>>DB</option>
-            <option value="test" <?= ($requirement['layer'] === "test") ? "selected" : ""; ?>>Test</option>
+            <option value="client" <?= ($requirement['layer'] === "client") ? "selected" : ""; ?>><?= $translations['client']; ?></option>
+            <option value="routing" <?= ($requirement['layer'] === "routing") ? "selected" : ""; ?>><?= $translations['routing']; ?></option>
+            <option value="business" <?= ($requirement['layer'] === "business") ? "selected" : ""; ?>><?= $translations['business']; ?></option>
+            <option value="db" <?= ($requirement['layer'] === "db") ? "selected" : ""; ?>><?= $translations['db']; ?></option>
+            <option value="test" <?= ($requirement['layer'] === "test") ? "selected" : ""; ?>><?= $translations['test']; ?></option>
         </select>
 
-        <label for="hashtags">Hashtags:</label>
+        <label for="hashtags"><?= $translations['hashtags']; ?></label>
         <input type="text" id="hashtags" name="hashtags" required value="<?= $requirement['hashtags'] ?>">
 
-        <label for="isNonFunctional">Is Non-Functional?</label>
+        <label for="isNonFunctional"><?= $translations['is_non_functional']; ?></label>
         <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1" <?= $requirement['isNonFunctional'] ? 'checked' : ''; ?>>
 
         <div id="nonFunctionalFields" style="display: <?= $requirement['isNonFunctional'] ? 'block' : 'none'; ?>;">
-            <label for="indicator_name">Indicator Name:</label>
+            <label for="indicator_name"><?= $translations['indicator_name']; ?></label>
             <input type="text" id="indicator_name" name="indicator_name" value="<?= $requirement['indicator_name'] ?>">
 
-            <label for="unit">Unit:</label>
+            <label for="unit"><?= $translations['unit']; ?></label>
             <input type="text" id="unit" name="unit" value="<?= $requirement['unit'] ?>">
 
-            <label for="value">Value:</label>
+            <label for="value"><?= $translations['value']; ?></label>
             <input type="number" step="0.01" id="value" name="value" value="<?= $requirement['value'] ?>">
 
-            <label for="indicator_description">Indicator Description:</label>
+            <label for="indicator_description"><?= $translations['indicator_description']; ?></label>
             <textarea id="indicator_description" name="indicator_description"><?= $requirement['indicator_description'] ?></textarea>
         </div>
 
         <div class="actions">
-            <button type="submit">Submit</button>
-            <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)">Delete</button>
+            <button type="submit"><?= $translations['submit']; ?></button>
+            <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)"><?= $translations['delete']; ?></button>
         </div>
     </form>
     <br>

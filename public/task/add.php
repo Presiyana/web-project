@@ -21,17 +21,17 @@ require_once __DIR__ . '/../../app/services/TaskService.php';
 </div>
 <div class="content">
     <form class="box" class="task-form" action="actions/add_task_action.php" method="post">
-        <label for="title">Title</label>
+        <label for="title"><?= $translations['title']; ?></label>
         <input type="text" id="title" name="title" required>
 
-        <label for="user_group">User Group:</label>
+        <label for="user_group"><?= $translations['user_group']; ?></label>
         <select name="user_group" id="user_group">
-            <option value="5">5 Group</option>
-            <option value="6">6 Group</option>
-            <option value="7">7 Groupo</option>
+            <option value="5"><?= $translations['group_5']; ?></option>
+            <option value="6"><?= $translations['group_6']; ?></option>
+            <option value="7"><?= $translations['group_7']; ?></option>
         </select>
 
-        <button type="submit">Submit</button>
+        <button type="submit"><?= $translations['submit']; ?></button>
     </form>
 </div>
 

@@ -5,7 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $authUser = $_SESSION['auth_user'];
 
+require_once __DIR__ . '/../../app/config/lang_config.php';
 require_once __DIR__ . '/../../app/services/TaskService.php';
+
 $taskService = TaskService::getInstance();
 $tasks = $taskService->getTasks(
     $authUser['user_group'] === 'teacher' ? '': $authUser['user_group'],
@@ -16,11 +18,11 @@ $tasks = $taskService->getTasks(
 <?php require_once __DIR__ . '/../common/header.php'; ?>
 
 <div class="title-container">
-    <h1>Tasks</h1>
+    <h1><?= $translations['tasks']; ?></h1>
 
     <?php if ($authUser['user_group'] === 'teacher'): ?>
         <div class="actions">
-            <a class="button" href="./add.php">Add Task</a>
+            <a class="button" href="./add.php"><?= $translations['add_task']; ?></a>
         </div>
     <?php endif; ?>
 </div>
@@ -30,12 +32,12 @@ $tasks = $taskService->getTasks(
         <thead>
             <tr>
                 <th>#</th>
-                <th>Title</th>
+                <th><?= $translations['title']; ?></th>
                 <?php if ($authUser['user_group'] === 'teacher'): ?>
-                    <th>User Group</th>
+                    <th><?= $translations['user_group']; ?></th>
                 <?php endif; ?>
-                <th>Creator</th>
-                <th>Status</th>
+                <th><?= $translations['creator']; ?></th>
+                <th><?= $translations['status']; ?></th>
             </tr>
         </thead>
         <tbody id="tasksBody">
@@ -56,15 +58,15 @@ $tasks = $taskService->getTasks(
                         <?= $task['email']; ?>
                     </td>
                     <td>
-                        <?= $task['pendingCount'] === 0 && $task['completedCount'] > 0 ? "Completed" : ""; ?>
-                        <?= $task['pendingCount'] > 0 ? "In progress" : ""; ?>
-                        <?= $task['pendingCount'] === 0 && $task['completedCount'] === 0 ? "No requirements" : ""; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] > 0 ? $translations['completed'] : ""; ?>
+                        <?= $task['pendingCount'] > 0 ? $translations['in_progress'] : ""; ?>
+                        <?= $task['pendingCount'] === 0 && $task['completedCount'] === 0 ? $translations['no_requirements'] : ""; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($tasks) ? '' : 'No tasks' ?>
+    <?= count($tasks) ? '' : $translations['no_tasks']; ?>
 </div>
 
 <script>
