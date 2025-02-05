@@ -75,5 +75,10 @@ return [
     'task_not_found_or_invalid' => 'Tâche non trouvée ou ID de tâche non valide',
     'user_already_exists' => "L'utilisateur avec le nom d'utilisateur ou l'e-mail fourni existe déjà",
     'fill_all_fields' => 'Veuillez remplir tous les champs',
+    'or' => 'ou',
+    'view_charts' => 'Voir les graphiques',
+    'req_data_visualization' => "Visualisation des données d'exigences par priorité et par couche",
+    'priority_distribution' => 'Répartition des priorités',
+    'req_by_layer' => "Exigences par couche",
 
 ];

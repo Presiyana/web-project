@@ -75,5 +75,11 @@ return [
     'task_not_found_or_invalid' => 'Aufgabe nicht gefunden oder ungültige Aufgaben-ID',
     'user_already_exists' => 'Benutzer mit dem angegebenen Benutzernamen oder E-Mail existiert bereits',
     'fill_all_fields' => 'Bitte füllen Sie alle Felder aus',
+    'or' => 'oder',
+    'view_charts' => 'Diagramme anzeigen',
+    'req_data_visualization' => 'Anforderungsdatenvisualisierung nach Priorität und Ebene',
+    'priority_distribution' => 'Prioritätsverteilung',
+    'req_by_layer' => "Anforderungen nach Ebene",
+
 
 ];
