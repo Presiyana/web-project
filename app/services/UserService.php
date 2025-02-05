@@ -28,10 +28,10 @@ class UserService
 
                 return $this->db->lastInsertId();
             } catch (PDOException $e) {
-                throw new Exception("User with the provided username or email already exists");
+                throw new Exception($translations['user_already_exists'] ?? "User with the provided username or email already exists");
             }
         } else {
-            throw new Exception("Please fill all the fields");
+            throw new Exception($translations['fill_all_fields'] ?? "Please fill all the fields");
         }
     }
 
@@ -49,10 +49,10 @@ class UserService
                 $user = $stmp->fetch();
                 return $user;
             } catch (PDOException $e) {
-                throw new Exception("User with the provided username or email already exists");
+                throw new Exception($translations['user_already_exists'] ?? "User with the provided username or email already exists");
             }
         } else {
-            throw new Exception("Please fill all the fields");
+            throw new Exception($translations['fill_all_fields'] ??"Please fill all the fields");
         }
     }
 }

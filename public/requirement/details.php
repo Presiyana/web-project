@@ -14,7 +14,7 @@ $requirement = $requirementService->getRequirementById($requirementId);
 <div class="title-container">
     <h1><?= $translations['req_number']; ?><?= $requirement['id'] ?></h1>
     <div class="actions">
-        <a class="button" href="./edit.php?id=<?= $requirement['id'] ?>">Edit</a>
+        <a class="button" href="./edit.php?id=<?= $requirement['id'] ?>"><?= $translations['edit']; ?></a>
     </div>
 </div>
 <div class="content">

@@ -46,7 +46,7 @@ class TaskService
 
         
         if (!$task) {
-            throw new Exception('task not found');
+            throw new Exception($translations['task_not_found'] ?? "Task not found.");
         }
         return $task;
     }

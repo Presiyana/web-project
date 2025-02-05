@@ -39,7 +39,7 @@ return [
     'requirement' => 'Requirement',
     'task_number' => 'Task #',
     'actions' => 'Actions',
-    'toogle_completion' => 'Toogle completion',
+    'toggle_completion' => 'Toggle completion',
     'non_functional' => 'Non-functional',
     'functional' => 'Functional',
     'edit' => 'Edit',
@@ -57,6 +57,31 @@ return [
     'hello' => 'Hello',
     'tasks' => 'Tasks',
     'page_title' => 'Requirements Portal',
-    'requirements' => 'Requirements'
+    'requirements' => 'Requirements',
+    'login' => 'Login',
+    'register' => 'Register',
+    'register_user' => 'Register user',
+    'teacher' => 'Teacher',
+    'import_file' => 'Import the selected file',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'no_req' => 'No requirements',
+    'success_upload' => 'File uploaded successfully!',
+    'error_uploading_file' => 'Error uploading file!',
+    'select_csv' => 'Please select a CSV file',
+    'create_task' => 'Create a task',
+    'task_not_found' => 'Task not found',
+    'req_not_found' => 'Requirement not found',
+    'task_not_found_or_invalid' => 'Task not found or invalid task ID',
+    'user_already_exists' => 'User with the provided username or email already exists',
+    'fill_all_fields' => 'Please fill all the fields',
+
+
+
+ 
+
+
+
+
 
 ]; 
