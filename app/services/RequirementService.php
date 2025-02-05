@@ -91,7 +91,7 @@ class RequirementService
         $requirement = $stmp->fetch(PDO::FETCH_ASSOC);
 
         if (!$requirement) {
-            throw new Exception('requirement not found');
+            throw new Exception($translations['req_not_found'] ?? "Requirement not found.");
         }
         return $requirement;
     }

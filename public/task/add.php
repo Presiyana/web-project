@@ -17,7 +17,7 @@ require_once __DIR__ . '/../../app/services/TaskService.php';
 
 
 <div class="title-container">
-    <h1>Create a task</h1>
+    <h1><?= $translations['create_task']; ?></h1>
 </div>
 <div class="content">
     <form class="box" class="task-form" action="actions/add_task_action.php" method="post">

@@ -32,7 +32,7 @@ if (count($requirements)) {
 
         <form id="csvUploadForm" enctype="multipart/form-data" style="display: inline;">
         <input type="file" id="csvFile" name="csvFile" accept=".csv" required style="display: none;">
-        <button type="submit" id="submitButton" style="display: none;">Import the selected file</button>
+        <button type="submit" id="submitButton" style="display: none;"><?= $translations['import_file']; ?></button>
         </form>
     </div>
 </div>
@@ -88,13 +88,13 @@ if (count($requirements)) {
                         <?= $requirement['description']; ?>
                     </td>
                     <td>
-                        <?= $requirement['priority']; ?>
+                        <?= $translations[$requirement['priority']] ?? $requirement['priority']; ?>
                     </td>
                     <td>
-                        <?= $requirement['layer']; ?>
+                        <?= $translations[$requirement['layer']] ?? $requirement['layer']; ?>
                     </td>
                     <td>
-                        <?= $requirement['isNonFunctional'] ? 'Yes' : 'No'; ?>
+                        <?= $requirement['isNonFunctional'] ? $translations['yes'] : $translations['no']; ?>
                     </td>
                     <td>
                         <?= $requirement['indicator_name'] ?? 'N/A'; ?>
@@ -112,7 +112,7 @@ if (count($requirements)) {
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($requirements) ? '' : 'No requirements' ?>
+    <?= count($requirements) ? '' : $translations['no_req']; ?>
 
 </div>
 
@@ -154,7 +154,7 @@ if (count($requirements)) {
         var fileInput = document.getElementById("csvFile");
 
         if (fileInput.files.length === 0) {
-            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'>Please select a CSV file.</p>";
+            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'><?= $translations['select_csv']; ?></p>";
             return;
         }
 
@@ -184,33 +184,30 @@ if (count($requirements)) {
             }
         })
         .catch(error => {
-            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'>Error uploading file.</p>";
+            document.getElementById("uploadStatus").innerHTML = "<p style='color:red;'><?= $translations['error_uploading_file']; ?></p>";
         });
     });
 
     const importButton = document.getElementById('importButton');
     const fileInput = document.getElementById('csvFile');
     const submitButton = document.getElementById('submitButton');
-    const form = document.getElementById('csvUploadForm');
 
-    
-    importButton.addEventListener('click', function(e) {
-        e.preventDefault();  
-        fileInput.click();
-    });
+    if(importButton){
+        importButton.addEventListener('click', function(e) {
+            e.preventDefault();  
+            fileInput.click();
+        });
+    }
 
-    fileInput.addEventListener('change', function() {
-        if (fileInput.files.length > 0) {
-            submitButton.style.display = 'inline';
-        } else {
-            submitButton.style.display = 'none'; 
-        }
-    });
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('File uploaded successfully!');
-    });
+    if(fileInput){
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                submitButton.style.display = 'inline';
+            } else {
+                submitButton.style.display = 'none'; 
+            }
+        });
+    }
 </script>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

@@ -56,7 +56,7 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
             <textarea id="indicator_description" name="indicator_description"></textarea>
         </div>
         
-        <button type="submit">Submit</button>
+        <button type="submit"><?= $translations['submit']; ?></button>
     </form>
 </div>
 

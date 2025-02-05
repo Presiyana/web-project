@@ -15,7 +15,7 @@ try {
     $taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], false);
     $nonFunctionaltaskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], true);
 } catch (Exception $e) {
-    die("Task not found or invalid task ID.");
+    die($translations['task_not_found_or_invalid'] ?? "Task not found or invalid task ID.");
 }
 /*
 $taskId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -89,7 +89,7 @@ require_once __DIR__ . '/../common/header.php';
                     </td>
 
                     <td>
-                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toogle_completion']; ?></button>
+                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -123,7 +123,7 @@ require_once __DIR__ . '/../common/header.php';
                     </td>
 
                     <td>
-                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toogle_completion']; ?></button>
+                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>
