@@ -75,6 +75,12 @@ return [
     'task_not_found_or_invalid' => 'Task not found or invalid task ID',
     'user_already_exists' => 'User with the provided username or email already exists',
     'fill_all_fields' => 'Please fill all the fields',
+    'or' => 'or',
+    'view_charts' => 'View Charts',
+    'req_data_visualization' => 'Requirement Data Visualization by priority and layer',
+    'priority_distribution' => 'Priority Distribution',
+    'req_by_layer' => "Requirements by layer",
+
 
 
 

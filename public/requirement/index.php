@@ -26,6 +26,7 @@ if (count($requirements)) {
 <div class="title-container">
     <h1><?= $translations['add_requirement']; ?></h1>
     <div class="actions">
+        <a class="button" href="./visualization.php"><?= $translations['view_charts']; ?></a>
         <a class="button" href="./add.php"><?= $translations['add_requirement']; ?></a>
         <a class="button <?= count($requirements) ? '' : 'disabled' ?>" href="<?= $exportUrl ?>" class="export-button"><?= $translations['export_csv']; ?></a>
         <a class="button" href="#" id="importButton"><?= $translations['import_csv']; ?></a>

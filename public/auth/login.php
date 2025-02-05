@@ -18,7 +18,7 @@ require_once __DIR__ . '/../../app/services/UserService.php';
     </form>
 </div>
 <div class="secondaryContainer">
-    <span>or</span>
+    <span><?= $translations['or']; ?></span>
     <a href="./register.php"><?= $translations['register']; ?></a>
 </div>
 
