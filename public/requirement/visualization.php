@@ -10,7 +10,7 @@ $requirementService = RequirementService::getInstance();
 $requirements = $requirementService->getAllRequirements(); 
 
 // Count priorities
-$priorityCount = ['high' => 0, 'middle' => 0, 'low' => 0];
+$priorityCount = ['high' => 0, 'medium' => 0, 'low' => 0];
 $layerCount = [];
 
 foreach ($requirements as $requirement) {
@@ -35,6 +35,14 @@ $layerTranslations = [
 ];
 
 $layerTranslationsJson = json_encode($layerTranslations);
+
+$priorityTranslations = [
+    'high' => $translations['high'] ?? 'High',
+    'medium' => $translations['medium'] ?? 'Medium',
+    'low' => $translations['low'] ?? 'Low'
+];
+
+$priorityTranslationsJson = json_encode($priorityTranslations);
 
 $priorityData = json_encode($priorityCount);
 $layerData = json_encode($layerCount);
@@ -86,8 +94,9 @@ $layerData = json_encode($layerCount);
         const priorityData = <?= $priorityData ?>;
         const layerData = <?= $layerData ?>;
         const layerTranslations = <?= $layerTranslationsJson ?>;
+        const priorityTranslations = <?= $priorityTranslationsJson ?>;
 
-        function drawPieChart(canvasId, data) {
+        function drawPieChart(canvasId, data, translations) {
             const canvas = document.getElementById(canvasId);
             const ctx = canvas.getContext('2d');
             const colors = ['#FF0000', '#FFC300', '#33cc33'];
@@ -112,14 +121,13 @@ $layerData = json_encode($layerCount);
                 startAngle += sliceAngle;
             }
 
-            // Add legend
             let legendY = 10;
             ctx.font = "14px Arial";
             for (let i = 0; i < labels.length; i++) {
                 ctx.fillStyle = colors[i];
                 ctx.fillRect(270, legendY, 15, 15);
                 ctx.fillStyle = "#000";
-                ctx.fillText(labels[i].charAt(0).toUpperCase() + labels[i].slice(1), 290, legendY + 12);
+                ctx.fillText(translations[labels[i]] || labels[i], 290, legendY + 12);
                 legendY += 20;
             }
         }
@@ -162,7 +170,7 @@ $layerData = json_encode($layerCount);
             }
         }
 
-        drawPieChart('priorityChart', priorityData);
+        drawPieChart('priorityChart', priorityData, priorityTranslations);
         drawBarChart('layerChart', layerData, layerTranslations);
     </script>
 
