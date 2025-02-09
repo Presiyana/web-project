@@ -14,10 +14,16 @@ if (empty($email) || empty($password)) {
 }
 
 $userService = UserService::getInstance();
-$authUser = $userService->login(
-    $email,
-    $password,
-);
+
+try {
+    $authUser = $userService->login(
+        $email,
+        $password,
+    );
+} catch (Exception $e) {
+    header('Location: ../login.php?message=' . $e->getMessage());
+    exit;
+}
 
 if (empty($authUser)) {
     header('Location: ../login.php?message=Wrong login details');

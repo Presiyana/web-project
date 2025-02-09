@@ -20,17 +20,21 @@ class TaskService
 
     public function getTasks($user_group = "")
     {
-        $sql = "SELECT t.*, u.email, 
+        try {
+            $sql = "SELECT t.*, u.email, 
                     (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'in_progress') AS pendingCount, 
                     (SELECT COUNT(*) FROM `taskRequirements` WHERE task_id = t.id AND status = 'complete') AS completedCount
                 FROM `tasks` t
                 LEFT JOIN `users` u ON t.user_id = u.id";
-        if ($user_group) {
-            $sql .= " WHERE t.user_group = '" . $user_group . "'";
+            if ($user_group) {
+                $sql .= " WHERE t.user_group = '" . $user_group . "'";
+            }
+            $stmt = $this->db->query($sql);
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (Exception $e) {
+            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage());
         }
-        $stmt = $this->db->query($sql);
-        $result = $stmt->fetchAll();
-        return $result;
     }
 
     public function getTaskById($id)
@@ -44,7 +48,7 @@ class TaskService
 
         $task = $stmp->fetch(PDO::FETCH_ASSOC);
 
-        
+
         if (!$task) {
             throw new Exception($translations['task_not_found'] ?? "Task not found.");
         }
@@ -80,6 +84,11 @@ class TaskService
             ':user_group' => $user_group,
             ':id' => $id,
         ]);
+
+        $updateSuccessful = $stmp->rowCount() > 0;
+        if (!$updateSuccessful) {
+            throw new Exception($translations['task_update_failed'] ?? 'Task update failed.');
+        }
     }
 
     public function getTaskRequirements($id)
@@ -93,31 +102,19 @@ class TaskService
     public function getTaskRequirementsWithRequirementData(
         $id,
         $nonFunctional
-    )
-    {
+    ) {
         $sql = "SELECT tr.*, r.title
             FROM `taskRequirements` tr
             LEFT JOIN `requirements` r ON r.id = tr.requirement_id
             WHERE tr.task_id = :task_id AND r.isNonFunctional = :isNonFunctional";
-    
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':task_id' => $id,
             ':isNonFunctional' => $nonFunctional ? 1 : 0
         ]);
-    
+
         return $stmt->fetchAll();
-
-        /*
-        $sql = "SELECT tr.*, r.title
-                FROM `taskRequirements` tr
-                LEFT JOIN `requirements` r ON r.id = tr.requirement_id
-                WHERE task_id = " . $id . " AND r.isNonFunctional = " . ($nonFunctional ? 1 : 0);
-
-        $stmt = $this->db->query($sql);
-        $result = $stmt->fetchAll();
-        return $result;
-        */
     }
 
     public function addTaskRequirement(

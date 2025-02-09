@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../database/DatabaseConnection.php';
+require_once __DIR__ . '/../config/lang_config.php';
+
 class RequirementService
 {
     private static $instance = null;
@@ -35,35 +37,42 @@ class RequirementService
         $priority,
         $layer,
         $isNonFunctional,
-        $indicators = [] 
+        $indicators = array(),
     ) {
         $sql = "INSERT INTO `requirements` (`title`, `description`, `hashtags`, `priority`, `layer`, `isNonFunctional`) 
                 VALUES (?,?,?,?,?,?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$title, $description, $hashtags, $priority, $layer, (int)$isNonFunctional]);
-    
+        $stmt->execute([$title, $description, $hashtags, $priority, $layer, (int) $isNonFunctional]);
+
         $requirementId = $this->db->lastInsertId();
-   
+
         if ($isNonFunctional && !empty($indicators)) {
-            $this->addIndicatorForRequirement(
-                $requirementId,
-                $indicators['indicator_name'],
-                $indicators['unit'],
-                $indicators['value'],
-                $indicators['indicator_description']
-            );
+            foreach ($indicators as $indicator) {
+                $this->addIndicatorForRequirement(
+                    $requirementId,
+                    $indicator['indicator_name'],
+                    $indicator['unit'],
+                    $indicator['value'],
+                    $indicator['indicator_description']
+                );
+            }
         }
-    
+
         return $requirementId;
     }
 
-    public function addIndicatorForRequirement($requirementId, $indicator_name, $unit, $value, $indicator_description)
-    {
+    public function addIndicatorForRequirement(
+        $requirementId,
+        $indicator_name,
+        $unit,
+        $value,
+        $indicator_description
+    ) {
         $indicator_name = $indicator_name ?? 'N/A';
         $unit = $unit ?? 'N/A';
         $value = $value ?? 'N/A';
         $indicator_description = $indicator_description ?? 'N/A';
-    
+
         $sql = "INSERT INTO `indicators` (`requirement_id`, `indicator_name`, `unit`, `value`, `indicator_description`) 
                 VALUES (:requirement_id, :indicator_name, :unit, :value, :indicator_description)";
         $stmt = $this->db->prepare($sql);
@@ -76,19 +85,53 @@ class RequirementService
         ]);
     }
 
+    public function removeIndicatorFromRequirement($id)
+    {
+        try {
+
+            $sql = "DELETE FROM `indicators` WHERE `id` = :id";
+            $stmp = $this->db->prepare($sql);
+            $stmp->execute([':id' => $id]);
+
+            if (!$stmp->rowCount()) {
+                throw new Exception($translations['requirement_deletion_failed'] ?? "Requirement deletion failed.");
+            }
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function getRequirementById($id)
     {
-        // $sql = "SELECT * FROM `requirements` WHERE id = :id";
-        $stmp = $this->db->prepare("
-        SELECT r.id, r.title, r.description, r.priority, r.layer, r.hashtags, r.isNonFunctional,
-            i.indicator_name, i.unit, i.value, i.indicator_description 
-        FROM requirements r
-        LEFT JOIN indicators i ON r.id = i.requirement_id
-        WHERE r.id = :id
-        ");
-        $stmp->execute([':id' => $id]);
+        $sql = "SELECT * FROM requirements WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
 
-        $requirement = $stmp->fetch(PDO::FETCH_ASSOC);
+        $requirement = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$requirement) {
+            throw new Exception($translations['req_not_found'] ?? "Requirement not found.");
+        }
+        return $requirement;
+    }
+
+    public function getRequirementIndicators($id)
+    {
+        $sql = "SELECT * FROM `indicators` WHERE requirement_id = :requirement_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':requirement_id' => $id,
+        ]);
+
+        return $stmt->fetchAll();
+    }
+    public function getRequirementIndicator($id)
+    {
+        $sql = "SELECT * FROM `indicators` WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $requirement = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$requirement) {
             throw new Exception($translations['req_not_found'] ?? "Requirement not found.");
@@ -104,7 +147,6 @@ class RequirementService
         $priority,
         $layer,
         $isNonFunctional,
-        $indicators = []
     ) {
         $sql = "UPDATE `requirements`
                 SET `title` = :title, `description` = :description, `hashtags` = :hashtags, `priority` = :priority, `layer` = :layer, `isNonFunctional` = :isNonFunctional
@@ -117,51 +159,44 @@ class RequirementService
             ':hashtags' => $hashtags,
             ':priority' => $priority,
             ':layer' => $layer,
-            ':isNonFunctional' => (int)$isNonFunctional,
+            ':isNonFunctional' => (int) $isNonFunctional,
             ':id' => $id,
         ]);
 
-        // $requirementId = $this->db->lastInsertId();
-
-        if ($isNonFunctional && !empty($indicators)) {
-            $this->addIndicatorForRequirement(
-                $id,
-                $indicators['indicator_name'],
-                $indicators['unit'],
-                $indicators['value'],
-                $indicators['indicator_description']
-            );
+        $updateSuccessful = $stmp->rowCount() > 0;
+        if (!$updateSuccessful) {
+            throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
         }
     }
 
-    public function editIndicatorsForRequirement(
+    public function editIndicatorForRequirement(
         $requirementId,
+        $id,
         $indicator_name,
         $unit,
         $value,
         $indicator_description
     ) {
-
-        $indicator_name = $indicator_name ?? 'N/A';
-        $unit = $unit ?? 'N/A';
-        $value = $value ?? 'N/A';
-        $indicator_description = $indicator_description ?? 'N/A';
-    
         $sql = "UPDATE `indicators` 
                 SET `indicator_name` = :indicator_name, 
                     `unit` = :unit, 
                     `value` = :value, 
                     `indicator_description` = :indicator_description 
-                WHERE `requirement_id` = :requirement_id";
-    
+                WHERE `id` = :id";
+
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':requirement_id' => $requirementId,
+        $stmt->execute(params: [
+            ':id' => $id,
             ':indicator_name' => $indicator_name,
             ':unit' => $unit,
             ':value' => $value,
             ':indicator_description' => $indicator_description
         ]);
+
+        $updateSuccessful = $stmt->rowCount() > 0;
+        if (!$updateSuccessful) {
+            throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
+        }
     }
 
     public function removeRequirementById($id)
@@ -169,27 +204,35 @@ class RequirementService
         $sql = "DELETE FROM `requirements` WHERE `id` = :id";
         $stmp = $this->db->prepare($sql);
         $stmp->execute([':id' => $id]);
+
+        if (!$stmp->rowCount()) {
+            throw new Exception($translations['requirement_deletion_failed'] ?? "Requirement deletion failed.");
+        }
     }
 
     public function getRequirementsByLayer($layer = null)
     {
-        $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
-        if ($layer && in_array($layer, $allowedLayers)) {
-            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+        try {
+            $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
+            if ($layer && in_array($layer, $allowedLayers)) {
+                $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
                     LEFT JOIN indicators i ON r.id = i.requirement_id
                     WHERE r.layer = :layer
                     ORDER BY r.id ASC";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([':layer' => $layer]);
-        } else {
-            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([':layer' => $layer]);
+            } else {
+                $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
                     LEFT JOIN indicators i ON r.id = i.requirement_id
                     ORDER BY r.id ASC";
-            $stmt = $this->db->query($sql);
+                $stmt = $this->db->query($sql);
+            }
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage());
         }
-        return $stmt->fetchAll();
     }
 
     public function getAllRequirements()

@@ -60,35 +60,4 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
     </form>
 </div>
 
-<script>
-    const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
-    const nonFunctionalFields = document.getElementById('nonFunctionalFields');
-                  
-    isNonFunctionalCheckbox.addEventListener('change', () => {
-        if (isNonFunctionalCheckbox.checked) {
-            nonFunctionalFields.style.display = 'block';
-        } else {
-            nonFunctionalFields.style.display = 'none';
-        }
-    });
-</script>
-<script>
-    document.querySelector('.requirement-form').addEventListener('submit', function (event) {
-        const isNonFunctional = document.getElementById('isNonFunctional').checked;
-
-        if (isNonFunctional) {
-            const indicatorName = document.getElementById('indicator_name').value.trim();
-            const unit = document.getElementById('unit').value.trim();
-            const value = document.getElementById('value').value.trim();
-            const indicatorDescription = document.getElementById('indicator_description').value.trim();
-
-            if (!indicatorName || !unit || !value || !indicatorDescription) {
-                alert('Please fill in all non-functional requirement fields.');
-                event.preventDefault();
-            }
-        }
-    });
-</script>
-
-
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

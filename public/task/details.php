@@ -13,25 +13,18 @@ $taskId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 try {
     $task = $taskService->getTaskById($taskId);
     $taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], false);
-    $nonFunctionaltaskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], true);
+    $nonFunctionalTaskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], true);
 } catch (Exception $e) {
-    die($translations['task_not_found_or_invalid'] ?? "Task not found or invalid task ID.");
+    header('Location: ../index.php?message=' . $translations['task_not_found_or_invalid'] ?? "Task not found or invalid task ID.");
+    die();
 }
-/*
-$taskId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$task = $taskService->getTaskById($taskId);
 
-$taskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], False);
-$nonFunctionaltaskRequirements = $taskService->getTaskRequirementsWithRequirementData($task['id'], True);
-?>
-
-*/
 require_once __DIR__ . '/../common/header.php'; 
 ?>
 
 
 <div class="title-container">
-    <h1><?= $translations['task_number']; ?><?= $task['id'] ?></h1>
+    <h1><?= $translations['task_number']; ?><?= $task['title'] ?></h1>
     <?php if ($authUser['user_group'] === 'teacher'): ?>
         <div class="actions">
             <a class="button" href="./edit.php?id=<?= $task['id'] ?>"><?= $translations['edit']; ?></a>
@@ -55,7 +48,7 @@ require_once __DIR__ . '/../common/header.php';
 
 
     <div class="title-container secondary">
-        <h1><?= $translations['functional']; ?></h1>
+        <h1><?= $translations['task_requirements']; ?></h1>
         <?php if ($authUser['user_group'] === 'teacher'): ?>
             <div class="actions">
                 <a class="button" href="./add_requirement.php?id=<?= $task['id'] ?>"><?= $translations['add_requirement']; ?></a>
@@ -63,7 +56,7 @@ require_once __DIR__ . '/../common/header.php';
         <?php endif; ?>
     </div>
 
-    <div class="taks-sub-title">
+    <div class="task-sub-title">
         <h2><?= $translations['functional']; ?></h2>
     </div>
     <table class="task-table">
@@ -97,7 +90,7 @@ require_once __DIR__ . '/../common/header.php';
     </table>
     <?= count($taskRequirements) ? '' : $translations['no_f_req']; ?>
 
-    <div class="taks-sub-title">
+    <div class="task-sub-title">
         <h2><?= $translations['non_functional']; ?></h2>
     </div>
     <table class="task-table">
@@ -110,7 +103,7 @@ require_once __DIR__ . '/../common/header.php';
             </tr>
         </thead>
         <tbody id="tasksBody">
-            <?php foreach ($nonFunctionaltaskRequirements as $idx => $taskRequirement): ?>
+            <?php foreach ($nonFunctionalTaskRequirements as $idx => $taskRequirement): ?>
                 <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>">
                     <td>
                         <?= $idx + 1 ?>
@@ -129,7 +122,7 @@ require_once __DIR__ . '/../common/header.php';
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($nonFunctionaltaskRequirements) ? '' : $translations['no_non_f_req']; ?>
+    <?= count($nonFunctionalTaskRequirements) ? '' : $translations['no_non_f_req']; ?>
 </div>
 
 <script>

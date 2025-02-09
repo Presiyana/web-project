@@ -9,9 +9,17 @@ require_once __DIR__ . '/../../app/config/lang_config.php';
 require_once __DIR__ . '/../../app/services/TaskService.php';
 
 $taskService = TaskService::getInstance();
-$tasks = $taskService->getTasks(
-    $authUser['user_group'] === 'teacher' ? '': $authUser['user_group'],
-);
+
+$tasksError = "";
+$tasks = array();
+
+try {
+    $tasks = $taskService->getTasks(
+        $authUser['user_group'] === 'teacher' ? '' : $authUser['user_group'],
+    );
+} catch (Exception $e) {
+    $tasksError = $e->getMessage();
+}
 
 ?>
 
@@ -70,6 +78,11 @@ $tasks = $taskService->getTasks(
 </div>
 
 <script>
+    const taskLoadError = "<?= $tasksError ?>";
+    if (taskLoadError) {
+        showMessage(taskLoadError);
+    }
+
     document.querySelectorAll('.task-entry').forEach(item => {
         item.addEventListener('click', function (event) {
             const id = this.getAttribute('data-id');

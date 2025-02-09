@@ -21,7 +21,7 @@ $task = $taskService->getTaskById($taskId);
 
 
 <div class="title-container">
-    <h1><?= $translations['edit_task']; ?> #<?= $task['id'] ?></h1>
+    <h1><?= $translations['edit_task']; ?> #<?= $task['title'] ?></h1>
 </div>
 <div class="content">
     <form class="box" class="task-form" action="actions/edit_task_action.php" method="post">

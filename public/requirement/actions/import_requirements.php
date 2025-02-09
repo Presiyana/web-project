@@ -19,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["csvFile"])) {
     $rowCount = 0;
     $importedCount = 0;
     $errors = [];
-    
+
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        if ($rowCount === 0) { 
+        if ($rowCount === 0) {
             $rowCount++;
             continue;
         }
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["csvFile"])) {
         $priority = $data[4] ?? '';
         $layer = $data[5] ?? '';
         $isNonFunctional = strtolower(trim($data[6])) === "yes";
-        
+        $indicators = json_decode($data[8], true);
 
         $allowedPriorities = ['high', 'medium', 'low'];
         $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
@@ -55,19 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["csvFile"])) {
             continue;
         }
 
-        $indicators = [];
-        if ($isNonFunctional) {
-            $indicators = [
-                "indicator_name" => $data[7] ?? 'N/A',
-                "unit" => $data[8] ?? 'N/A',
-                "value" => $data[9] ?? 'N/A',
-                "indicator_description" => $data[10] ?? 'N/A'
-            ];
-        }
-
         // Insert into database
         try {
-            $requirementService->addRequirement($title, $description, $hashtags, $priority, $layer, $isNonFunctional, $indicators);
+            $requirementService->addRequirement(
+                $title,
+                $description,
+                $hashtags,
+                $priority,
+                $layer,
+                $isNonFunctional,
+                $indicators
+            );
             $importedCount++;
         } catch (Exception $e) {
             $errors[] = "Row $rowCount: " . $e->getMessage();

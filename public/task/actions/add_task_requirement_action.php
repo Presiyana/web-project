@@ -10,6 +10,15 @@ if (empty($id) || empty($requirement)) {
 }
 
 $taskService = TaskService::getInstance();
-$taskService->addTaskRequirement($id, $requirement);
+
+try {
+    $taskService->addTaskRequirement(
+        $id,
+        $requirement
+    );
+} catch (Exception $e) {
+    header('Location: ../edit.php?message=' . $e->getMessage());
+    die();
+}
 
 header('Location: ../details.php?id=' . $id);

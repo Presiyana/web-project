@@ -21,6 +21,11 @@ if (empty($title) || empty($user_group)) {
 }
 
 $taskService = TaskService::getInstance();
-$taskId = $taskService->addTask($title, $user_group, $authUser['id']);
+try {
+    $taskId = $taskService->addTask($title, $user_group, $authUser['id']);
+} catch (Exception $e) {
+    header('Location: ../add.php?message=' . $translations['error_adding_task'] ?? 'Error adding task');
+    die();
+}
 
 header('Location: ../index.php');

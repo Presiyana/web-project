@@ -35,9 +35,9 @@ return [
     'group_7' => '7 Group',
     'submit' => 'Submit',
     'delete' => 'Delete',
-    'add_requirement_to_task' => 'Add requirement to task #',
+    'add_requirement_to_task' => 'Add requirement to task - ',
     'requirement' => 'Requirement',
-    'task_number' => 'Task #',
+    'task_number' => 'Task - ',
     'actions' => 'Actions',
     'toggle_completion' => 'Toggle completion',
     'non_functional' => 'Non-functional',
@@ -51,8 +51,8 @@ return [
     'low' => 'Low',
     'hashtags' => 'Hashtags',
     'create_a_req' => 'Create a requirement',
-    'edit_req' => 'Edit requirement #',
-    'req_number' => 'Requirement #',
+    'edit_req' => 'Edit requirement - ',
+    'req_number' => 'Requirement - ',
     'logout' => 'Logout',
     'hello' => 'Hello',
     'tasks' => 'Tasks',
@@ -67,6 +67,7 @@ return [
     'no' => 'No',
     'no_req' => 'No requirements',
     'success_upload' => 'File uploaded successfully!',
+    'error' => 'Error',
     'error_uploading_file' => 'Error uploading file!',
     'select_csv' => 'Please select a CSV file',
     'create_task' => 'Create a task',
@@ -80,14 +81,18 @@ return [
     'req_data_visualization' => 'Requirement Data Visualization by priority and layer',
     'priority_distribution' => 'Priority Distribution',
     'req_by_layer' => "Requirements by layer",
-
-
-
-
- 
-
-
-
-
-
+    'missing_required_fields' => 'Missing required fields',
+    'requirement_export_failed' => 'Requirement export failed',
+    'error_adding_requirement' => 'Error adding requirement',
+    'error_adding_requirement_indicator' => 'Error adding requirement indicator',
+    'requirement_update_failed' => 'Requirement update failed.',
+    'requirement_deletion_failed' => 'Requirement deletion failed.',
+    'error_adding_task' => 'Error adding task',
+    'task_update_failed' => 'Task update failed.',
+    'task_deletion_failed' => 'Task deletion failed.',
+    'add_requirement_indicator' => 'Add requirement indicator',
+    'requirement_indicators' => 'Requirement Indicators',
+    'no_requirement_indicators' => 'No requirement indicators',
+    'add_requirement_indicator_to_req' => 'Add indicator to requirement - ',
+    'edit_indicator' => 'Edit indicator - ',
 ]; 

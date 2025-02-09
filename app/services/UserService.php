@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../database/DatabaseConnection.php';
+require_once __DIR__ . '/../config/lang_config.php';
 class UserService
 {
     private static $instance = null;

@@ -13,35 +13,28 @@ if (empty($id) || empty($title) || empty($description) || empty($hashtags)) {
     die();
 }
 
+$queries = array();
+parse_str($_SERVER['QUERY_STRING'], $queries);
+$requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
+
 // Ако е нефункционално, всички индикаторни полета трябва да са попълнени
-if ($isNonFunctional) {
-    if (empty($_POST['indicator_name']) || empty($_POST['unit']) || empty($_POST['value']) || empty($_POST['indicator_description'])) {
-        die();
-    }
-}
-
-$indicator_name = $isNonFunctional ? ($_POST['indicator_name'] ?? 'N/A') : null;
-$unit = $isNonFunctional ? ($_POST['unit'] ?? 'N/A') : null;
-// $value = $isNonFunctional ? ($_POST['value'] ?? 0) : null;
-$value = $isNonFunctional ? ($_POST['value'] ?? 'N/A') : null;
-$indicator_description = $isNonFunctional ? ($_POST['indicator_description'] ?? 'N/A') : null;
-
 $requirementService = RequirementService::getInstance();
-$requirementService->editRequirementById(
-    $id,
-    $title,
-    $description,
-    $hashtags,
-    $priority,
-    $layer,
-    $isNonFunctional,
-    [
-        'indicator_name' => $indicator_name,
-        'unit' => $unit,
-        'value' => $value,
-        'indicator_description' => $indicator_description
-    ]
-);
 
+$search = $requirementsFilter ? $requirementsFilter . "&id=" . $id : "?id=" . $id;
 
-header('Location: ../details.php?id='.$id);
+try {
+    $requirementService->editRequirementById(
+        $id,
+        $title,
+        $description,
+        $hashtags,
+        $priority,
+        $layer,
+        $isNonFunctional,
+    );
+
+} catch (Exception $e) {
+    header('Location: ../edit.php' . $search . '&message=' . $e->getMessage());
+    die();
+}
+header('Location: ../details.php' . $search);

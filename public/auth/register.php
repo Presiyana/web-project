@@ -22,5 +22,9 @@ require_once __DIR__ . '/../../app/services/UserService.php';
     </form>
     <div id="registerMessage"></div>
 </div>
+<div class="secondaryContainer">
+    <span><?= $translations['or']; ?></span>
+    <a href="./login.php"><?= $translations['login']; ?></a>
+</div>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

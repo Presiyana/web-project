@@ -22,6 +22,15 @@ if (empty($title) || empty($user_group)) {
 }
 
 $taskService = TaskService::getInstance();
-$taskService->editTask($id, $title, $user_group);
+try {
+    $taskService->editTask(
+        $id,
+        $title,
+        $user_group
+    );
+} catch (Exception $e) {
+    header('Location: ../edit.php?message=' . $e->getMessage());
+    die();
+}
 
-header('Location: ../details.php?id='.$id);
+header('Location: ../details.php?id=' . $id);

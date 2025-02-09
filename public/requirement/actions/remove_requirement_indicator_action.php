@@ -2,16 +2,15 @@
 
 require_once __DIR__ . '/../../../app/services/RequirementService.php';
 
-$id = $_GET['id'];
 
+$id = $_GET['id'];
 if (empty($id)) {
     die();
 }
 
-$requirementService = RequirementService::getInstance();
-
 try {
-    $requirementService->removeRequirementById($id);
+    $requirementService = RequirementService::getInstance();
+    $requirementService->removeIndicatorFromRequirement($id);
 } catch (Exception $e) {
     throw new Exception(''. $id .''. $e->getMessage());
 }
