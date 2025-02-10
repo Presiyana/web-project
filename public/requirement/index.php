@@ -6,12 +6,15 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../../app/services/RequirementService.php';
 $requirementService = RequirementService::getInstance();
 $layerFilter = $_GET['layer'] ?? null;
+$priorityFilter = $_GET['priority'] ?? null;
+$nonFunctionalFilter = $_GET['non_functional'] ?? null;  
+$NonFunctionalFilter = isset($_GET['non_functional']) ? 1 : 0;
 
 $requirementsError = "";
 $requirements = array();
 
 try {
-    $requirements = $requirementService->getRequirementsByLayer($layerFilter);
+    $requirements = $requirementService->getRequirementsByFilters($layerFilter, $priorityFilter, $nonFunctionalFilter);
 } catch (Exception $e) {
     $requirementsError = $e->getMessage();
 }
@@ -22,12 +25,21 @@ try {
 
 
 <?php
-$exportUrl = '.';
-if (count($requirements)) {
-    $exportUrl = 'actions/export_requirements.php';
-    if (isset($_GET['layer'])) {
-        $exportUrl .= '?layer=' . urlencode($_GET['layer']);
-    }
+$exportUrl = 'actions/export_requirements.php';
+
+$params = [];
+if (!empty($_GET['layer'])) {
+    $params['layer'] = $_GET['layer'];
+}
+if (!empty($_GET['priority'])) {
+    $params['priority'] = $_GET['priority'];
+}
+if (!empty($_GET['non_functional'])) {
+    $params['non_functional'] = $_GET['non_functional'];
+}
+
+if (!empty($params)) {
+    $exportUrl .= '?' . http_build_query($params);
 }
 ?>
 
@@ -51,25 +63,42 @@ if (count($requirements)) {
 
 <div class="filters-container">
     <div class="filters">
+        <!-- Layer Filter -->
         <div class="filter">
             <label for="layerFilter"><?= $translations['filter_by_layer']; ?></label>
             <select id="layerFilter">
                 <option value=""><?= $translations['all']; ?></option>
-                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>>
-                    <?= $translations['client']; ?>
-                </option>
-                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>>
-                    <?= $translations['routing']; ?>
-                </option>
-                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>>
-                    <?= $translations['business']; ?>
-                </option>
+                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>><?= $translations['client']; ?></option>
+                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>><?= $translations['routing']; ?></option>
+                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>><?= $translations['business']; ?></option>
                 <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>><?= $translations['db']; ?></option>
-                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?>
-                </option>
+                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?></option>
+            </select>
+        </div>
+
+        <!-- Priority Filter -->
+        <div class="filter">
+            <label for="priorityFilter"><?= $translations['filter_by_priority']; ?></label>
+            <select id="priorityFilter">
+                <option value=""><?= $translations['all']; ?></option>
+                <option value="high" <?= ($priorityFilter === 'high') ? 'selected' : ''; ?>><?= $translations['high']; ?></option>
+                <option value="medium" <?= ($priorityFilter === 'medium') ? 'selected' : ''; ?>><?= $translations['medium']; ?></option>
+                <option value="low" <?= ($priorityFilter === 'low') ? 'selected' : ''; ?>><?= $translations['low']; ?></option>
+            </select>
+        </div>
+
+        <!-- Non-Functional Filter -->
+        <div class="filter">
+            <label for="nonFunctionalFilter"><?= $translations['filter_by_non_functional']; ?></label>
+            <select id="nonFunctionalFilter">
+                <option value=""><?= $translations['all']; ?></option>
+                <option value="1" <?= ($nonFunctionalFilter === '1') ? 'selected' : ''; ?>><?= $translations['yes']; ?></option>
+                <option value="0" <?= ($nonFunctionalFilter === '0') ? 'selected' : ''; ?>><?= $translations['no']; ?></option>
             </select>
         </div>
     </div>
+
+    <!-- Button for clearing filters (positioned to the right) -->
     <div class="controls">
         <button id="clearFilter" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
     </div>
@@ -114,7 +143,6 @@ if (count($requirements)) {
         </tbody>
     </table>
     <?= count($requirements) ? '' : $translations['no_req']; ?>
-
 </div>
 
 <script>
@@ -133,25 +161,44 @@ if (count($requirements)) {
         });
     });
 
-    // Filter Requirements Based on Layer Selection
-    document.getElementById('layerFilter').addEventListener('change', function () {
-        const selectedLayer = this.value;
+ 
+
+    document.getElementById('layerFilter').addEventListener('change', updateFilters);
+    document.getElementById('priorityFilter').addEventListener('change', updateFilters);
+    document.getElementById('nonFunctionalFilter').addEventListener('change', updateFilters);
+
+    function updateFilters() {
+        const layer = document.getElementById('layerFilter').value;
+        const priority = document.getElementById('priorityFilter').value;
+        const nonFunctional = document.getElementById('nonFunctionalFilter').value;
         const url = new URL(window.location.href);
 
-        if (selectedLayer) {
-            url.searchParams.set('layer', selectedLayer);
+        if (layer) {
+            url.searchParams.set('layer', layer);
         } else {
             url.searchParams.delete('layer');
         }
 
-        // Reload the page with the new filter
-        window.location.href = url.toString();
-    });
+        if (priority) {
+            url.searchParams.set('priority', priority);
+        } else {
+            url.searchParams.delete('priority');
+        }
 
-    // Clear Filter
+        if (nonFunctional) {
+            url.searchParams.set('non_functional', nonFunctional);
+        } else {
+            url.searchParams.delete('non_functional');
+        }
+
+        window.location.href = url.toString();
+    }
+
     function clearFilter() {
         const url = new URL(window.location.href);
         url.searchParams.delete('layer');
+        url.searchParams.delete('priority');
+        url.searchParams.delete('non_functional');
         window.location.href = url.toString();
     }
 
@@ -217,5 +264,50 @@ if (count($requirements)) {
         });
     }
 </script>
+<style>
+    .filters-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap; /* Запазва филтрите на един ред */
+        margin-bottom: 10px;
+    }
+
+    .filters {
+        display: flex;
+        gap: 14px; /* Малко разстояние между филтрите */
+        align-items: center;
+    }
+
+
+    .filter label {
+        white-space: nowrap; /* Предотвратява пренасяне на нов ред */
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .filter select {
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .controls {
+        margin-left: auto; /* Премества бутона вдясно */
+    }
+
+    #clearFilter {
+        background-color: red;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    #clearFilter:hover {
+        background-color: darkred;
+    }
+</style>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

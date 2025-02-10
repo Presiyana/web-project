@@ -95,4 +95,6 @@ return [
     'no_requirement_indicators' => 'Aucun indicateur d\'exigence',
     'add_requirement_indicator_to_req' => 'Ajouter un indicateur d\'exigence à l\'exigence - ',
     'edit_indicator'=> 'Modifier l\'indicateur - ',
+    'filter_by_priority' => 'Filtrer par Priorité',
+    'filter_by_non_functional' => 'Filtrer par Non-Fonctionnel',
 ];

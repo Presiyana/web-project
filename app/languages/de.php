@@ -95,4 +95,6 @@ return [
     'no_requirement_indicators' => 'Keine Anforderungsindikatoren',
     'add_requirement_indicator_to_req' => 'Anforderungsindikator zu Anforderung hinzufügen - ',
     'edit_indicator' => 'Indikator bearbeiten - ',
+    'filter_by_priority' => 'Nach Priorität filtern',
+    'filter_by_non_functional' => 'Nach Nicht-Funktional filtern',
 ];
