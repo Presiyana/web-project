@@ -3,35 +3,88 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    background-color: var(--main-color);
-    color: var(--white);
-    padding: 20px;
+    background-color: var(--white);
+    color: var(--text);
+    padding: 0 20px;
     font-size: 24px;
 
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 100;
+    height: 90px;
+    width: calc(100vw - 40px);
+
+    box-shadow: 0px 0px 10px 0px rgba(59, 59, 59, .4);
+    border-bottom: 2px solid var(--orange);
+}
+
+div#brand {
+    display: flex;
+    align-items: center;
+}
+div#brand img {
+    height: 50px;
 }
 
 nav {
+    font-family: "Dela Gothic One", serif;
+
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
 nav a {
-    text-decoration: none;
-    color: var(--white);
+    text-decoration: none !important;
+    color: var(--text);
+    transition: 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+nav a.active {
+    color: var(--green);
 }
 
 nav a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 2px solid var(--orange);
 }
 
 nav #userDetails {
     margin-left: 20px;
     display: flex;
     gap: 20px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+
+.user-menu svg {
+    height: 55px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-menu .menu {
+    position: absolute;
+    background: var(--white);
+    top: 75px;
+    padding: 10px;
+    right: 10px;
+    border: 2px solid var(--green);
+    border-radius: 10px;
+    width: 200px;
+    transition: .3s;
+    transform: skew(10deg, 10deg) translateX(245px);
+}
+
+.user-menu:hover .menu {
+    transform: none;
+}
+.user-menu:hover svg {
+    stroke: var(--green);
 }
 
 #message {

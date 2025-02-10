@@ -47,7 +47,7 @@ textarea {
 
 button {
     display: block;
-    background-color: var(--main-color);
+    background-color: var(--green);
     color: var(--white);
     border: none;
     border-radius: 5px;
@@ -66,8 +66,15 @@ button.small {
     font-weight: inherit;
 }
 
+button.orange {
+    background-color: var(--orange);
+}
+button.orange:hover {
+    background-color: var(--orange-secondary);
+}
+
 button:hover {
-    background-color: var(--main-color-secondary);
+    background-color: var(--green-secondary);
 }
 
 .form-footer {
@@ -88,15 +95,30 @@ button:hover {
 
 .actions {
     display: flex;
-    gap: 10px
+    gap: 20px;
+}
+
+.actions a {
+    font-weight: bold;
+    font-family: 'Dela Gothic One';
+    text-decoration: none !important;
+    border-bottom: 2px solid transparent
+}
+.actions a:hover {
+    border-color: var(--orange);
+}
+
+button {
+    transition: .3s;
 }
 
 button.delete {
-    background-color: var(--danger);
+    background-color: var(--orange);
 }
 
 button.delete:hover {
-    background-color: var(--danger-secondary);
+    /* background-color: var(--danger-secondary); */
+    background-color: var(--orange-secondary);
 }
 
 .secondaryContainer {
@@ -144,18 +166,4 @@ button.delete:hover {
 
 .controls {
     margin-left: auto;
-}
-
-#clearFilter {
-    background-color: red;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-#clearFilter:hover {
-    background-color: darkred;
 }

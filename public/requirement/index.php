@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
 $requirementService = RequirementService::getInstance();
 $layerFilter = $_GET['layer'] ?? null;
 $priorityFilter = $_GET['priority'] ?? null;
-$nonFunctionalFilter = $_GET['non_functional'] ?? null;  
+$nonFunctionalFilter = $_GET['non_functional'] ?? null;
 $NonFunctionalFilter = isset($_GET['non_functional']) ? 1 : 0;
 
 $requirementsError = "";
@@ -41,6 +41,9 @@ if (!empty($_GET['non_functional'])) {
 if (!empty($params)) {
     $exportUrl .= '?' . http_build_query($params);
 }
+
+$hasFilters = count($params) > 0;
+
 ?>
 
 <div class="title-container">
@@ -68,33 +71,48 @@ if (!empty($params)) {
             <label for="layerFilter"><?= $translations['filter_by_layer']; ?></label>
             <select id="layerFilter">
                 <option value=""><?= $translations['all']; ?></option>
-                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>><?= $translations['client']; ?></option>
-                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>><?= $translations['routing']; ?></option>
-                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>><?= $translations['business']; ?></option>
+                <option value="client" <?= ($layerFilter === 'client') ? 'selected' : ''; ?>>
+                    <?= $translations['client']; ?>
+                </option>
+                <option value="routing" <?= ($layerFilter === 'routing') ? 'selected' : ''; ?>>
+                    <?= $translations['routing']; ?>
+                </option>
+                <option value="business" <?= ($layerFilter === 'business') ? 'selected' : ''; ?>>
+                    <?= $translations['business']; ?>
+                </option>
                 <option value="db" <?= ($layerFilter === 'db') ? 'selected' : ''; ?>><?= $translations['db']; ?></option>
-                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?></option>
+                <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?>
+                </option>
             </select>
         </div>
         <div class="filter">
             <label for="priorityFilter"><?= $translations['filter_by_priority']; ?></label>
             <select id="priorityFilter">
                 <option value=""><?= $translations['all']; ?></option>
-                <option value="high" <?= ($priorityFilter === 'high') ? 'selected' : ''; ?>><?= $translations['high']; ?></option>
-                <option value="medium" <?= ($priorityFilter === 'medium') ? 'selected' : ''; ?>><?= $translations['medium']; ?></option>
-                <option value="low" <?= ($priorityFilter === 'low') ? 'selected' : ''; ?>><?= $translations['low']; ?></option>
+                <option value="high" <?= ($priorityFilter === 'high') ? 'selected' : ''; ?>><?= $translations['high']; ?>
+                </option>
+                <option value="medium" <?= ($priorityFilter === 'medium') ? 'selected' : ''; ?>>
+                    <?= $translations['medium']; ?>
+                </option>
+                <option value="low" <?= ($priorityFilter === 'low') ? 'selected' : ''; ?>><?= $translations['low']; ?>
+                </option>
             </select>
         </div>
         <div class="filter">
             <label for="nonFunctionalFilter"><?= $translations['filter_by_non_functional']; ?></label>
             <select id="nonFunctionalFilter">
                 <option value=""><?= $translations['all']; ?></option>
-                <option value="1" <?= ($nonFunctionalFilter === '1') ? 'selected' : ''; ?>><?= $translations['yes']; ?></option>
-                <option value="0" <?= ($nonFunctionalFilter === '0') ? 'selected' : ''; ?>><?= $translations['no']; ?></option>
+                <option value="1" <?= ($nonFunctionalFilter === '1') ? 'selected' : ''; ?>><?= $translations['yes']; ?>
+                </option>
+                <option value="0" <?= ($nonFunctionalFilter === '0') ? 'selected' : ''; ?>><?= $translations['no']; ?>
+                </option>
             </select>
         </div>
     </div>
     <div class="controls">
-        <button id="clearFilter" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
+        <?php if ($hasFilters): ?>
+            <button class="small orange" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -118,7 +136,7 @@ if (!empty($params)) {
                     <td>
                         <?= $idx + 1 ?>
                     </td>
-                    <td>
+                    <td class="title">
                         <?= $requirement['title']; ?>
                     </td>
                     <td>
@@ -155,7 +173,7 @@ if (!empty($params)) {
         });
     });
 
- 
+
 
     document.getElementById('layerFilter').addEventListener('change', updateFilters);
     document.getElementById('priorityFilter').addEventListener('change', updateFilters);
