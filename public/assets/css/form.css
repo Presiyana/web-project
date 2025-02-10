@@ -109,8 +109,53 @@ button.delete:hover {
 }
 
 .filter select {
-    width: 120px;  /* Намалява ширината */
-    height: 30px;  /* Намалява височината */
-    font-size: 14px;  /* Намалява текста */
-    padding: 2px 5px;  /* Намалява вътрешния padding */
+    width: 120px;
+    height: 30px;
+    font-size: 14px;
+    padding: 2px 5px;
+}
+
+
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+}
+
+.filters {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+
+.filter label {
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.filter select {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.controls {
+    margin-left: auto;
+}
+
+#clearFilter {
+    background-color: red;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#clearFilter:hover {
+    background-color: darkred;
 }
