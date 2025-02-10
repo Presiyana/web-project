@@ -96,5 +96,6 @@ return [
     'add_requirement_indicator_to_req' => 'Add indicator to requirement - ',
     'edit_indicator' => 'Edit indicator - ',
     'filter_by_priority' => 'Filter by Priority',
-    'filter_by_non_functional' => 'Filter by Non-Functional'
+    'filter_by_non_functional' => 'Filter by Non-Functional',
+    'search_by_hashtag' => 'Search by Hashtag'
 ]; 

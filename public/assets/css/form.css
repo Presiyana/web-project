@@ -159,3 +159,22 @@ button.delete:hover {
 #clearFilter:hover {
     background-color: darkred;
 }
+
+
+
+.search-hashtag-container {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+    margin-left: 70px;
+    padding: 5px 10px;
+}
+
+
+#hashtagSearch {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    width: 300px;
+}

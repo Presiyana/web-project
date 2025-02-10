@@ -57,9 +57,10 @@ $requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
             <option value="test" <?= ($requirement['layer'] === "test") ? "selected" : ""; ?>><?= $translations['test']; ?>
             </option>
         </select>
-
-        <label for="hashtags"><?= $translations['hashtags']; ?></label>
-        <input type="text" id="hashtags" name="hashtags" required value="<?= $requirement['hashtags'] ?>">
+        <div class="hashtag-search-container">
+            <label for="hashtags"><?= $translations['hashtags']; ?></label>
+            <input type="text" id="hashtags" name="hashtags" required value="<?= $requirement['hashtags'] ?>">
+        </div>
 
         <label for="isNonFunctional"><?= $translations['is_non_functional']; ?></label>
         <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1" <?= $requirement['isNonFunctional'] ? 'checked' : ''; ?>>
@@ -87,7 +88,9 @@ $requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
     const targetUrl = `${targetUrlBase}${layerFilter}`;
 
     function deleteButtonClickHandler(id) {
-        fetch('actions/remove_requirement_action.php?id=' + id, { method: 'DELETE' })
+        fetch('actions/remove_requirement_action.php?id=' + id, {
+                method: 'DELETE'
+            })
             .then((res) => {
                 if (res.ok) {
                     window.location.href = targetUrl;
