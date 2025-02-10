@@ -96,5 +96,7 @@ return [
     'add_requirement_indicator_to_req' => 'Добави индикатор към изискване - ',
     'edit_indicator' => 'Редактиране на индикатор - ',
     'filter_by_priority' => 'Филтрирай по Приоритет',
-    'filter_by_non_functional' => 'Филтрирай по Нефункционални'
+    'filter_by_non_functional' => 'Филтрирай по Нефункционални',
+    'search_by_hashtag' => 'Търси по Хаштаг'
+
 ];

@@ -112,6 +112,10 @@ $hasFilters = count($params) > 0;
             </select>
         </div>
     </div>
+    <div class="search-hashtag-container">
+        <label for="hashtagSearch"><?= $translations['search_by_hashtag']; ?></label>
+        <input type="text" id="hashtagSearch" placeholder="hashtag">
+    </div>
     <div class="controls">
         <?php if ($hasFilters): ?>
             <button class="small orange" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
@@ -165,13 +169,12 @@ $hasFilters = count($params) > 0;
 </div>
 
 <script>
-
     const requirementLoadError = "<?= $requirementsError ?>";
     if (requirementLoadError) {
         showMessage(requirementLoadError);
     }
     document.querySelectorAll('.requirement-entry').forEach(item => {
-        item.addEventListener('click', function () {
+        item.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
             const search = window.location.search ? `${window.location.search}&id=${id}` : `?id=${id}`;
             window.location.href = `details.php${search}`;
@@ -219,7 +222,7 @@ $hasFilters = count($params) > 0;
         window.location.href = url.toString();
     }
 
-    document.getElementById("csvUploadForm").addEventListener("submit", function (event) {
+    document.getElementById("csvUploadForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
         var formData = new FormData();
@@ -233,9 +236,9 @@ $hasFilters = count($params) > 0;
         formData.append("csvFile", fileInput.files[0]);
 
         fetch("actions/import_requirements.php", {
-            method: "POST",
-            body: formData
-        })
+                method: "POST",
+                body: formData
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -265,14 +268,14 @@ $hasFilters = count($params) > 0;
     const submitButton = document.getElementById('submitButton');
 
     if (importButton) {
-        importButton.addEventListener('click', function (e) {
+        importButton.addEventListener('click', function(e) {
             e.preventDefault();
             fileInput.click();
         });
     }
 
     if (fileInput) {
-        fileInput.addEventListener('change', function () {
+        fileInput.addEventListener('change', function() {
             if (fileInput.files.length > 0) {
                 submitButton.style.display = 'inline';
             } else {
@@ -280,5 +283,26 @@ $hasFilters = count($params) > 0;
             }
         });
     }
+
+    document.getElementById('hashtagSearch').addEventListener('input', function() {
+        let searchValue = this.value.trim().toLowerCase();
+        let searchWords = searchValue.split(/\s+/);
+
+        let rows = document.querySelectorAll('.requirement-entry');
+
+        rows.forEach(row => {
+            let hashtagCell = row.querySelector('td:nth-child(4)');
+            if (hashtagCell) {
+                let hashtags = hashtagCell.textContent.toLowerCase().split(/\s+/);
+
+                let matches = searchWords.some(word =>
+                    hashtags.some(tag => tag.startsWith(word))
+                );
+
+                row.style.display = matches || searchValue === '' ? '' : 'none';
+            }
+        });
+
+    });
 </script>
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

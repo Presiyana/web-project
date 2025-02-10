@@ -97,4 +97,5 @@ return [
     'edit_indicator' => 'Indikator bearbeiten - ',
     'filter_by_priority' => 'Nach Priorität filtern',
     'filter_by_non_functional' => 'Nach Nicht-Funktional filtern',
+    'search_by_hashtag' => 'Suche nach Hashtag'
 ];
