@@ -8,13 +8,16 @@ $requirementService = RequirementService::getInstance();
 $layerFilter = $_GET['layer'] ?? null;
 $priorityFilter = $_GET['priority'] ?? null;
 $nonFunctionalFilter = $_GET['non_functional'] ?? null;
-$NonFunctionalFilter = isset($_GET['non_functional']) ? 1 : 0;
 
 $requirementsError = "";
 $requirements = array();
 
 try {
-    $requirements = $requirementService->getRequirementsByFilters($layerFilter, $priorityFilter, $nonFunctionalFilter);
+    $requirements = $requirementService->getRequirementsByFilters(
+        $layerFilter,
+        $priorityFilter,
+        $nonFunctionalFilter
+    );
 } catch (Exception $e) {
     $requirementsError = $e->getMessage();
 }
@@ -34,7 +37,7 @@ if (!empty($_GET['layer'])) {
 if (!empty($_GET['priority'])) {
     $params['priority'] = $_GET['priority'];
 }
-if (!empty($_GET['non_functional'])) {
+if ($_GET['non_functional'] === '1' || $_GET['non_functional'] === '0') {
     $params['non_functional'] = $_GET['non_functional'];
 }
 
@@ -156,7 +159,9 @@ $hasFilters = count($params) > 0;
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($requirements) ? '' : $translations['no_req']; ?>
+    <p class="no-rows">
+        <?= count($requirements) ? '' : $translations['no_req']; ?>
+    </p>
 </div>
 
 <script>

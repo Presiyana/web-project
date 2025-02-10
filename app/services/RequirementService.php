@@ -209,8 +209,11 @@ class RequirementService
         }
     }
 
-    public function getRequirementsByFilters($layer = null, $priority = null, $isNonFunctional = null)
-    {
+    public function getRequirementsByFilters(
+        $layer = null,
+        $priority = null,
+        $isNonFunctional = null
+    ) {
         try {
             $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
@@ -231,9 +234,9 @@ class RequirementService
 
             if ($isNonFunctional !== null) {
                 $sql .= " AND r.isNonFunctional = :isNonFunctional";
-                $params[':isNonFunctional'] = (int) $isNonFunctional; 
+                $params[':isNonFunctional'] = (int) $isNonFunctional;
             }
-            
+
 
             $sql .= " ORDER BY r.id ASC";
 
@@ -241,8 +244,8 @@ class RequirementService
             $stmt->execute($params);
 
             return $stmt->fetchAll();
-        }catch (Exception $e) {
-            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage()); 
+        } catch (Exception $e) {
+            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage());
         }
     }
 
