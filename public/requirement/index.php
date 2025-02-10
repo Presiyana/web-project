@@ -37,7 +37,11 @@ if (!empty($_GET['layer'])) {
 if (!empty($_GET['priority'])) {
     $params['priority'] = $_GET['priority'];
 }
-if ($_GET['non_functional'] === '1' || $_GET['non_functional'] === '0') {
+if (
+    isset($_GET['non_functional']) && (
+        $_GET['non_functional'] === '1' || $_GET['non_functional'] === '0'
+    )
+) {
     $params['non_functional'] = $_GET['non_functional'];
 }
 
@@ -174,7 +178,7 @@ $hasFilters = count($params) > 0;
         showMessage(requirementLoadError);
     }
     document.querySelectorAll('.requirement-entry').forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             const search = window.location.search ? `${window.location.search}&id=${id}` : `?id=${id}`;
             window.location.href = `details.php${search}`;
@@ -222,7 +226,7 @@ $hasFilters = count($params) > 0;
         window.location.href = url.toString();
     }
 
-    document.getElementById("csvUploadForm").addEventListener("submit", function(event) {
+    document.getElementById("csvUploadForm").addEventListener("submit", function (event) {
         event.preventDefault();
 
         var formData = new FormData();
@@ -236,9 +240,9 @@ $hasFilters = count($params) > 0;
         formData.append("csvFile", fileInput.files[0]);
 
         fetch("actions/import_requirements.php", {
-                method: "POST",
-                body: formData
-            })
+            method: "POST",
+            body: formData
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -268,14 +272,14 @@ $hasFilters = count($params) > 0;
     const submitButton = document.getElementById('submitButton');
 
     if (importButton) {
-        importButton.addEventListener('click', function(e) {
+        importButton.addEventListener('click', function (e) {
             e.preventDefault();
             fileInput.click();
         });
     }
 
     if (fileInput) {
-        fileInput.addEventListener('change', function() {
+        fileInput.addEventListener('change', function () {
             if (fileInput.files.length > 0) {
                 submitButton.style.display = 'inline';
             } else {
@@ -284,7 +288,7 @@ $hasFilters = count($params) > 0;
         });
     }
 
-    document.getElementById('hashtagSearch').addEventListener('input', function() {
+    document.getElementById('hashtagSearch').addEventListener('input', function () {
         let searchValue = this.value.trim().toLowerCase();
         let searchWords = searchValue.split(/\s+/);
 
