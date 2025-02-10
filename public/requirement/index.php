@@ -105,6 +105,7 @@ if (!empty($params)) {
                 <th>#</th>
                 <th><?= $translations['title']; ?></th>
                 <th><?= $translations['description']; ?></th>
+                <th><?= $translations['hashtags']; ?></th>
                 <th><?= $translations['priority']; ?></th>
                 <th><?= $translations['layer']; ?></th>
                 <th><?= $translations['is_non_functional']; ?></th>
@@ -123,6 +124,7 @@ if (!empty($params)) {
                     <td>
                         <?= $requirement['description']; ?>
                     </td>
+                    <td><?= $requirement['hashtags'] ?? '-'; ?></td>
                     <td>
                         <?= $translations[$requirement['priority']] ?? $requirement['priority']; ?>
                     </td>
@@ -256,50 +258,4 @@ if (!empty($params)) {
         });
     }
 </script>
-<!-- <style>
-    .filters-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: nowrap; 
-        margin-bottom: 10px;
-    }
-
-    .filters {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-    }
-
-
-    .filter label {
-        white-space: nowrap;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .filter select {
-        padding: 5px;
-        font-size: 14px;
-    }
-
-    .controls {
-        margin-left: auto;
-    }
-
-    #clearFilter {
-        background-color: red;
-        color: white;
-        padding: 8px 12px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
-    #clearFilter:hover {
-        background-color: darkred;
-    }
-</style> -->
-
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

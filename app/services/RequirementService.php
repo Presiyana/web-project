@@ -57,7 +57,6 @@ class RequirementService
                 );
             }
         }
-
         return $requirementId;
     }
 
