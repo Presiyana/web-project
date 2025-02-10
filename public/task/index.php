@@ -74,7 +74,9 @@ try {
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($tasks) ? '' : $translations['no_tasks']; ?>
+    <p class="no-rows">
+        <?= count($tasks) ? '' : $translations['no_tasks']; ?>
+    </p>
 </div>
 
 <script>

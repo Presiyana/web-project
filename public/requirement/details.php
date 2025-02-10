@@ -129,7 +129,9 @@ $editLinkSearch = $requirementsFilter ? $requirementsFilter . "&id=" . $requirem
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?= count($requirementIndicators) ? '' : $translations['no_requirement_indicators']; ?>
+        <p class="no-rows">
+            <?= count($requirementIndicators) ? '' : $translations['no_requirement_indicators']; ?>
+        </p>
     <?php endif; ?>
 </div>
 

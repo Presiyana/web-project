@@ -8,7 +8,11 @@ $priorityFilter = $_GET['priority'] ?? null;
 $nonFunctionalFilter = $_GET['non_functional'] ?? null;
 
 try {
-    $requirements = $requirementService->getRequirementsByFilters($layerFilter, $priorityFilter, $nonFunctionalFilter);
+    $requirements = $requirementService->getRequirementsByFilters(
+        $layerFilter,
+        $priorityFilter,
+        $nonFunctionalFilter
+    );
 } catch (Exception $e) {
     $requirementsError = $e->getMessage();
 }
@@ -34,7 +38,7 @@ $output = fopen('php://output', 'w');
 fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
 
 foreach ($requirements as $row) {
-    $isNonFunctional = isset($row['isNonFunctional']) ? (int) $row['isNonFunctional'] : 0; 
+    $isNonFunctional = isset($row['isNonFunctional']) ? (int) $row['isNonFunctional'] : 0;
 
     $indicators = [];
     if ($isNonFunctional === 1) {

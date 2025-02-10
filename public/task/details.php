@@ -91,7 +91,9 @@ require_once __DIR__ . '/../common/header.php';
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($taskRequirements) ? '' : $translations['no_f_req']; ?>
+    <p class="no-rows">
+        <?= count($taskRequirements) ? '' : $translations['no_f_req']; ?>
+    </p>
 
     <div class="task-sub-title">
         <h2><?= $translations['non_functional']; ?></h2>
@@ -126,7 +128,9 @@ require_once __DIR__ . '/../common/header.php';
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?= count($nonFunctionalTaskRequirements) ? '' : $translations['no_non_f_req']; ?>
+    <p class="no-rows">
+        <?= count($nonFunctionalTaskRequirements) ? '' : $translations['no_non_f_req']; ?>
+    </p>
 </div>
 
 <script>
