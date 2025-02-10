@@ -77,12 +77,21 @@ nav #userDetails {
     border-radius: 10px;
     width: 200px;
     transition: .3s;
-    transform: skew(10deg, 10deg) translateX(245px);
+    transform: skew(10deg, 10deg) translateX(260px);
 }
 
 .user-menu:hover .menu {
     transform: none;
 }
+
+.user-menu .menu .controls {
+    margin-top: 20px;
+}
+
+.user-menu .menu .user-group {
+    font-size: 20px;
+}
+
 .user-menu:hover svg {
     stroke: var(--green);
 }

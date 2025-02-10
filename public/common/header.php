@@ -13,6 +13,7 @@ $hasAuthUser = isset($_SESSION['auth_user']);
 $idQueryParam = $_GET['id'] ?? null;
 
 $userName = "";
+$userGroup = "";
 $loggedInElementStyle = "";
 $loggedOutElementStyle = "";
 
@@ -25,6 +26,8 @@ if (!$hasAuthUser) {
     }
 } else {
     $userName = $_SESSION['auth_user']['username'];
+    $raw_userGroup = $_SESSION['auth_user']['user_group'];
+    $userGroup = $raw_userGroup === 'teacher' ? $translations['teacher'] : $translations['group_' . $raw_userGroup];
     $loggedInElementStyle = "display: block";
     $loggedOutElementStyle = "display: none";
     if ($isOnAuthPage) {
@@ -93,6 +96,9 @@ $isOnTasksPage = strpos($_SERVER['REQUEST_URI'], '/task/');
                         <span id="hello-user"><?= $translations['hello'] ?? 'Hello' ?>, <?= $userName ?></span>
                     </div>
                     <div>
+                        <span class="user-group"><?= $userGroup ?></span>
+                    </div>
+                    <div class="controls">
                         <a href="<?= BASE_URL ?>auth/logout.php"><?= $translations['logout'] ?? 'Logout' ?></a>
                     </div>
                     <div>

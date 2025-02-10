@@ -192,10 +192,10 @@ class RequirementService
             ':indicator_description' => $indicator_description
         ]);
 
-        $updateSuccessful = $stmt->rowCount() > 0;
-        if (!$updateSuccessful) {
-            throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
-        }
+        // $updateSuccessful = $stmt->rowCount() > 0;
+        // if (!$updateSuccessful) {
+        //     throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
+        // }
     }
 
     public function removeRequirementById($id)
