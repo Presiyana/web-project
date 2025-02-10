@@ -19,6 +19,8 @@ $queries = array();
 parse_str($_SERVER['QUERY_STRING'], $queries);
 $requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
 
+$taskId = $queries['task_id'];
+
 $editLinkSearch = $requirementsFilter ? $requirementsFilter . "&id=" . $requirement['id'] : "?id=" . $requirement['id'];
 ?>
 
@@ -27,6 +29,9 @@ $editLinkSearch = $requirementsFilter ? $requirementsFilter . "&id=" . $requirem
 <div class="title-container">
     <h1><?= $translations['req_number']; ?><?= $requirement['title'] ?></h1>
     <div class="actions">
+        <?php if ($taskId): ?>
+            <a class="button" href="<?= BASE_URL ?>task/details.php?id=<?= $taskId ?>"><?= $translations['back_to_task']; ?></a>
+        <?php endif; ?>
         <a class="button" href="./edit.php<?= $editLinkSearch ?>"><?= $translations['edit']; ?></a>
     </div>
 </div>

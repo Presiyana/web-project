@@ -12,8 +12,8 @@ require_once __DIR__ . '/../../app/services/UserService.php';
 </div>
 <div class="content">
     <form class="box" id="registerForm" action="actions/login_user.php" method="post">
-        <input type="email" name="email" placeholder="Email" required value="test@test.com">
-        <input type="password" name="password" placeholder="Password" required value="123">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
         <button type="submit"><?= $translations['login']; ?></button>
     </form>
 </div>

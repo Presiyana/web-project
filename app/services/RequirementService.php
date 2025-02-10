@@ -162,10 +162,10 @@ class RequirementService
             ':id' => $id,
         ]);
 
-        $updateSuccessful = $stmp->rowCount() > 0;
-        if (!$updateSuccessful) {
-            throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
-        }
+        // $updateSuccessful = $stmp->rowCount() > 0;
+        // if (!$updateSuccessful) {
+        //     throw new Exception($translations['requirement_update_failed'] ?? 'Requirement update failed.');
+        // }
     }
 
     public function editIndicatorForRequirement(

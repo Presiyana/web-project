@@ -109,7 +109,7 @@ require_once __DIR__ . '/../common/header.php';
         </thead>
         <tbody id="tasksBody">
             <?php foreach ($nonFunctionalTaskRequirements as $idx => $taskRequirement): ?>
-                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>">
+                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>" data-requirement-id="<?= $taskRequirement['requirement_id']; ?>">
                     <td>
                         <?= $idx + 1 ?>
                     </td>
@@ -140,6 +140,22 @@ require_once __DIR__ . '/../common/header.php';
             window.location.href =
                 `actions/toggle_task_requirement_completion_action.php?task_id=<?= $taskId; ?>&requirement_id=${requirementId}`;
         })
+    });
+
+
+    const baseUrl = "<?= BASE_URL ?>";
+    const taskId = "<?= $taskId ?>";
+    document.querySelectorAll('.task-requirement-entry').forEach(item => {
+        item.addEventListener('click', function (event) {
+            if (event.target.tagName === 'BUTTON') {
+                return;
+            }
+
+            const id = this.getAttribute('data-id');
+            const requirementId = this.getAttribute('data-requirement-id');
+            const url = `${baseUrl}requirement/details.php?id=${requirementId}&task_id=${taskId}`;
+            window.location.href = url;
+        });
     });
 </script>
 

@@ -97,6 +97,6 @@ return [
     'edit_indicator' => 'Редактиране на индикатор - ',
     'filter_by_priority' => 'Филтрирай по Приоритет',
     'filter_by_non_functional' => 'Филтрирай по Нефункционални',
-    'search_by_hashtag' => 'Търси по Хаштаг'
-
+    'search_by_hashtag' => 'Търси по Хаштаг',
+    'back_to_task' => 'Обратно към задачата',
 ];
