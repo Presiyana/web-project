@@ -39,6 +39,9 @@ foreach ($requirements as $row) {
     $indicators = [];
     if ($isNonFunctional === 1) {
         $indicators = $requirementService->getRequirementIndicators($row['id']);
+        $indicators = array_map(function ($indicator) {
+            return array_filter($indicator, 'is_string', ARRAY_FILTER_USE_KEY);
+        }, $indicators);
     }
 
     fputcsv($output, [
