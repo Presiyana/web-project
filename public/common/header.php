@@ -36,7 +36,8 @@ if (!$hasAuthUser) {
 
 $queries = array();
 parse_str($_SERVER['QUERY_STRING'], $queries);
-$requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
+$requirementsFilter = isset($queries['layer']) ? "?layer=" . $queries['layer'] : "";
+
 ?>
 
 <!DOCTYPE html>

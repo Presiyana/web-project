@@ -2,45 +2,49 @@
 require_once __DIR__ . '/../../../app/services/RequirementService.php';
 
 $requirementService = RequirementService::getInstance();
+
 $layerFilter = $_GET['layer'] ?? null;
-$requirementsFilter = $layerFilter ? "?layer=" . $layerFilter : "";
+$priorityFilter = $_GET['priority'] ?? null;
+$nonFunctionalFilter = $_GET['non_functional'] ?? null;
 
-if ($layerFilter) {
-    $requirements = $requirementService->getRequirementsByLayer($layerFilter);
-} else {
-    $requirements = $requirementService->getAllRequirements();
+try {
+    $requirements = $requirementService->getRequirementsByFilters($layerFilter, $priorityFilter, $nonFunctionalFilter);
+} catch (Exception $e) {
+    $requirementsError = $e->getMessage();
 }
 
-if (empty($requirements)) {
-    $message = $translations['requirement_export_failed'] ?? "Requirement export failed";
-    header('Location: ../index.php' . $requirementsFilter . '&message=' . $message);
-    die();
+$params = [];
+if (!empty($_GET['layer'])) {
+    $params['layer'] = $_GET['layer'];
+}
+if (!empty($_GET['priority'])) {
+    $params['priority'] = $_GET['priority'];
+}
+if (!empty($_GET['non_functional'])) {
+    $params['non_functional'] = $_GET['non_functional'];
 }
 
-$filename = 'requirements_export_' . ($layerFilter ? $layerFilter . '_' : '') . date('Y-m-d') . '.csv';
+// Генерираме CSV файл
+$filename = 'requirements_export_' . date('Y-m-d') . '.csv';
 
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 
 $output = fopen('php://output', 'w');
 
+// Заглавия на колоните
 fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
 
-
-$currentRequirementId = null;
 foreach ($requirements as $row) {
+    $isNonFunctional = isset($row['isNonFunctional']) ? (int) $row['isNonFunctional'] : 0; // Уверяваме се, че е число
 
-    if (!array_key_exists('indicator_name', $row)) {
-        error_log("Warning: 'indicator_name' missing for requirement ID " . $row['id']);
-    }
-
-    $isNonFunctional = $row['isNonFunctional'] ?? false;
-
-    $indicators = array();
-    if ($isNonFunctional) {
+    // Взимаме индикаторите само за нефункционални изисквания
+    $indicators = [];
+    if ($isNonFunctional === 1) {
         $indicators = $requirementService->getRequirementIndicators($row['id']);
     }
 
+    // Добавяме ред към CSV файла
     fputcsv($output, [
         $row['id'],
         $row['title'],

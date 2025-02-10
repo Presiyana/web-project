@@ -210,28 +210,40 @@ class RequirementService
         }
     }
 
-    public function getRequirementsByLayer($layer = null)
+    public function getRequirementsByFilters($layer = null, $priority = null, $isNonFunctional = null)
     {
         try {
-            $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
-            if ($layer && in_array($layer, $allowedLayers)) {
-                $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
                     FROM requirements r
                     LEFT JOIN indicators i ON r.id = i.requirement_id
-                    WHERE r.layer = :layer
-                    ORDER BY r.id ASC";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([':layer' => $layer]);
-            } else {
-                $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
-                    FROM requirements r
-                    LEFT JOIN indicators i ON r.id = i.requirement_id
-                    ORDER BY r.id ASC";
-                $stmt = $this->db->query($sql);
+                    WHERE 1=1";
+
+            $params = [];
+
+            if ($layer) {
+                $sql .= " AND r.layer = :layer";
+                $params[':layer'] = $layer;
             }
+
+            if ($priority) {
+                $sql .= " AND r.priority = :priority";
+                $params[':priority'] = $priority;
+            }
+
+            if ($isNonFunctional !== null) {
+                $sql .= " AND r.isNonFunctional = :isNonFunctional";
+                $params[':isNonFunctional'] = (int) $isNonFunctional; 
+            }
+            
+
+            $sql .= " ORDER BY r.id ASC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
             return $stmt->fetchAll();
-        } catch (Exception $e) {
-            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage());
+        }catch (Exception $e) {
+            throw new Exception(($translations['error'] ?? 'Error') . ': ' . $e->getMessage()); 
         }
     }
 
@@ -244,6 +256,5 @@ class RequirementService
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
-}
 
-?>
+}

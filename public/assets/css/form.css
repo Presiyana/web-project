@@ -107,3 +107,10 @@ button.delete:hover {
     flex-direction: column;
     gap: 10px;
 }
+
+.filter select {
+    width: 120px;  /* Намалява ширината */
+    height: 30px;  /* Намалява височината */
+    font-size: 14px;  /* Намалява текста */
+    padding: 2px 5px;  /* Намалява вътрешния padding */
+}
