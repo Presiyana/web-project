@@ -8,11 +8,6 @@ $requirementService = RequirementService::getInstance();
 $layerFilter = $_GET['layer'] ?? null;
 $priorityFilter = $_GET['priority'] ?? null;
 $nonFunctionalFilter = $_GET['non_functional'] ?? null;
-<<<<<<< HEAD
-$NonFunctionalFilter = isset($_GET['non_functional']) ? 1 : 0;
-$hashtagFilter = $_GET['search_by_hashtag'] ?? '';
-=======
->>>>>>> main
 
 $requirementsError = "";
 $requirements = array();
