@@ -62,8 +62,8 @@ if (!empty($params)) {
 <div id="uploadStatus"></div>
 
 <div class="filters-container">
+    <link rel="stylesheet" type="text/css" href="assets/css/form.css?v=<?= time(); ?>">
     <div class="filters">
-        <!-- Layer Filter -->
         <div class="filter">
             <label for="layerFilter"><?= $translations['filter_by_layer']; ?></label>
             <select id="layerFilter">
@@ -75,8 +75,6 @@ if (!empty($params)) {
                 <option value="test" <?= ($layerFilter === 'test') ? 'selected' : ''; ?>><?= $translations['test']; ?></option>
             </select>
         </div>
-
-        <!-- Priority Filter -->
         <div class="filter">
             <label for="priorityFilter"><?= $translations['filter_by_priority']; ?></label>
             <select id="priorityFilter">
@@ -86,8 +84,6 @@ if (!empty($params)) {
                 <option value="low" <?= ($priorityFilter === 'low') ? 'selected' : ''; ?>><?= $translations['low']; ?></option>
             </select>
         </div>
-
-        <!-- Non-Functional Filter -->
         <div class="filter">
             <label for="nonFunctionalFilter"><?= $translations['filter_by_non_functional']; ?></label>
             <select id="nonFunctionalFilter">
@@ -97,8 +93,6 @@ if (!empty($params)) {
             </select>
         </div>
     </div>
-
-    <!-- Button for clearing filters (positioned to the right) -->
     <div class="controls">
         <button id="clearFilter" onclick="clearFilter()"><?= $translations['clear_filter']; ?></button>
     </div>
@@ -151,8 +145,6 @@ if (!empty($params)) {
     if (requirementLoadError) {
         showMessage(requirementLoadError);
     }
-
-    // Handle Row Click for Editing
     document.querySelectorAll('.requirement-entry').forEach(item => {
         item.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
@@ -264,24 +256,24 @@ if (!empty($params)) {
         });
     }
 </script>
-<style>
+<!-- <style>
     .filters-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: nowrap; /* Запазва филтрите на един ред */
+        flex-wrap: nowrap; 
         margin-bottom: 10px;
     }
 
     .filters {
         display: flex;
-        gap: 14px; /* Малко разстояние между филтрите */
+        gap: 14px;
         align-items: center;
     }
 
 
     .filter label {
-        white-space: nowrap; /* Предотвратява пренасяне на нов ред */
+        white-space: nowrap;
         font-size: 14px;
         font-weight: bold;
     }
@@ -292,7 +284,7 @@ if (!empty($params)) {
     }
 
     .controls {
-        margin-left: auto; /* Премества бутона вдясно */
+        margin-left: auto;
     }
 
     #clearFilter {
@@ -308,6 +300,6 @@ if (!empty($params)) {
     #clearFilter:hover {
         background-color: darkred;
     }
-</style>
+</style> -->
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>
