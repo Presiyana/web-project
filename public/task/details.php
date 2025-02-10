@@ -19,7 +19,7 @@ try {
     die();
 }
 
-require_once __DIR__ . '/../common/header.php'; 
+require_once __DIR__ . '/../common/header.php';
 ?>
 
 
@@ -46,12 +46,14 @@ require_once __DIR__ . '/../common/header.php';
         </select>
     </form>
 
+    <hr>
 
     <div class="title-container secondary">
         <h1><?= $translations['task_requirements']; ?></h1>
         <?php if ($authUser['user_group'] === 'teacher'): ?>
             <div class="actions">
-                <a class="button" href="./add_requirement.php?id=<?= $task['id'] ?>"><?= $translations['add_requirement']; ?></a>
+                <a class="button"
+                    href="./add_requirement.php?id=<?= $task['id'] ?>"><?= $translations['add_requirement']; ?></a>
             </div>
         <?php endif; ?>
     </div>
@@ -74,7 +76,7 @@ require_once __DIR__ . '/../common/header.php';
                     <td>
                         <?= $idx + 1 ?>
                     </td>
-                    <td>
+                    <td class="title">
                         <?= $taskRequirement['title']; ?>
                     </td>
                     <td>
@@ -82,7 +84,8 @@ require_once __DIR__ . '/../common/header.php';
                     </td>
 
                     <td>
-                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
+                        <button class="small toggleCompletion"
+                            data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -108,7 +111,7 @@ require_once __DIR__ . '/../common/header.php';
                     <td>
                         <?= $idx + 1 ?>
                     </td>
-                    <td>
+                    <td class="title">
                         <?= $taskRequirement['title']; ?>
                     </td>
                     <td>
@@ -116,7 +119,8 @@ require_once __DIR__ . '/../common/header.php';
                     </td>
 
                     <td>
-                        <button class="small toggleCompletion" data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
+                        <button class="small toggleCompletion"
+                            data-id="<?= $taskRequirement['requirement_id']; ?>"><?= $translations['toggle_completion']; ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>

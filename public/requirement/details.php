@@ -79,6 +79,9 @@ $editLinkSearch = $requirementsFilter ? $requirementsFilter . "&id=" . $requirem
     </form>
 
     <?php if ($requirement['isNonFunctional']): ?>
+
+        <hr>
+
         <div class="title-container secondary">
             <h1><?= $translations['requirement_indicators']; ?></h1>
             <div class="actions">
@@ -104,7 +107,7 @@ $editLinkSearch = $requirementsFilter ? $requirementsFilter . "&id=" . $requirem
                         <td>
                             <?= $idx + 1 ?>
                         </td>
-                        <td>
+                        <td class="title">
                             <?= $requirementIndicator['indicator_name']; ?>
                         </td>
                         <td>

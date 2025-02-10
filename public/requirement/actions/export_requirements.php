@@ -24,16 +24,12 @@ if (!empty($_GET['non_functional'])) {
     $params['non_functional'] = $_GET['non_functional'];
 }
 
-
-
-// Генерираме CSV файл
 $filename = 'requirements_export_' . date('Y-m-d') . '.csv';
 
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 
 $output = fopen('php://output', 'w');
-
 
 fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
 
@@ -43,6 +39,9 @@ foreach ($requirements as $row) {
     $indicators = [];
     if ($isNonFunctional === 1) {
         $indicators = $requirementService->getRequirementIndicators($row['id']);
+        $indicators = array_map(function ($indicator) {
+            return array_filter($indicator, 'is_string', ARRAY_FILTER_USE_KEY);
+        }, $indicators);
     }
 
     fputcsv($output, [
@@ -54,7 +53,7 @@ foreach ($requirements as $row) {
         $row['layer'],
         $isNonFunctional ? 'Yes' : 'No',
         $row['created_at'],
-        json_encode($indicators)
+        json_encode($indicators, JSON_UNESCAPED_UNICODE)
     ]);
 }
 

@@ -54,7 +54,7 @@ try {
                     <td>
                         <?= $idx + 1 ?>
                     </td>
-                    <td>
+                    <td class="title">
                         <?= $task['title']; ?>
                     </td>
                     <?php if ($authUser['user_group'] === 'teacher'): ?>

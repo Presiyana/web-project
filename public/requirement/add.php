@@ -41,23 +41,62 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
 
         <label for="isNonFunctional"><?= $translations['is_non_functional']; ?></label>
         <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1">
-    
-        <div id="nonFunctionalFields" style="display:none;">
+
+        <div id="nonFunctionalFields" style="display:none; margin-top: 20px;">
+
+            <h3>First indicator details</h3>
+
             <label for="indicator_name"><?= $translations['indicator_name']; ?></label>
-            <input type="text" id="indicator_name" name="indicator_name">
+        <input type="text" id="indicator_name" name="indicator_name">
 
             <label for="unit"><?= $translations['unit']; ?></label>
             <input type="text" id="unit" name="unit">
 
             <label for="value"><?= $translations['value']; ?></label>
-            <input type="number" step="0.01" id="value" name="value">
+            <input type="number" step="0.01" max="10000" id="value" name="value">
 
             <label for="indicator_description"><?= $translations['indicator_description']; ?></label>
             <textarea id="indicator_description" name="indicator_description"></textarea>
         </div>
-        
+
         <button type="submit"><?= $translations['submit']; ?></button>
     </form>
 </div>
+
+<script>
+    const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
+    const nonFunctionalFields = document.getElementById('nonFunctionalFields');
+
+    isNonFunctionalCheckbox.addEventListener('change', () => {
+        if (isNonFunctionalCheckbox.checked) {
+            nonFunctionalFields.style.display = 'block';
+            nonFunctionalFields.querySelectorAll('input, textarea').forEach((element) => {
+                element.required = true;
+            });
+        } else {
+            nonFunctionalFields.style.display = 'none';
+            nonFunctionalFields.querySelectorAll('input, textarea').forEach((element) => {
+                element.required = false;
+            });
+        }
+    });
+</script>
+<script>
+    document.querySelector('.requirement-form').addEventListener('submit', function (event) {
+        const isNonFunctional = document.getElementById('isNonFunctional').checked;
+
+        if (isNonFunctional) {
+            const indicatorName = document.getElementById('indicator_name').value.trim();
+            const unit = document.getElementById('unit').value.trim();
+            const value = document.getElementById('value').value.trim();
+            const indicatorDescription = document.getElementById('indicator_description').value.trim();
+
+            if (!indicatorName || !unit || !value || !indicatorDescription) {
+                alert('Please fill in all non-functional requirement fields.');
+                event.preventDefault();
+            }
+        }
+    });
+</script>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>
