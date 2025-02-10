@@ -47,7 +47,7 @@ require_once __DIR__ . '/../../app/services/RequirementService.php';
             <h3>First indicator details</h3>
 
             <label for="indicator_name"><?= $translations['indicator_name']; ?></label>
-        <input type="text" id="indicator_name" name="indicator_name">
+            <input type="text" id="indicator_name" name="indicator_name">
 
             <label for="unit"><?= $translations['unit']; ?></label>
             <input type="text" id="unit" name="unit">

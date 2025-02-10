@@ -39,10 +39,10 @@ require_once __DIR__ . '/../common/header.php';
         <input disabled type="text" id="title" name="title" required value="<?= $task['title'] ?>">
 
         <label for="user_group"><?= $translations['user_group']; ?></label>
-        <select disabled name="user_group" id="user_group" value="<?= $task['user_group'] ?>">
-            <option value="5"><?= $translations['group_5']; ?></option>
-            <option value="6"><?= $translations['group_6']; ?></option>
-            <option value="7"><?= $translations['group_7']; ?></option>
+        <select disabled name="user_group" id="user_group">
+            <option value="5" <?= $task['user_group'] === '5' ? ' selected' : '' ?> ><?= $translations['group_5']; ?></option>
+            <option value="6" <?= $task['user_group'] === '6' ? ' selected' : '' ?> ><?= $translations['group_6']; ?></option>
+            <option value="7" <?= $task['user_group'] === '7' ? ' selected' : '' ?> ><?= $translations['group_7']; ?></option>
         </select>
     </form>
 

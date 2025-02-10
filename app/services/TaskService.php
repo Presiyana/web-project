@@ -85,10 +85,10 @@ class TaskService
             ':id' => $id,
         ]);
 
-        $updateSuccessful = $stmp->rowCount() > 0;
-        if (!$updateSuccessful) {
-            throw new Exception($translations['task_update_failed'] ?? 'Task update failed.');
-        }
+        // $updateSuccessful = $stmp->rowCount() > 0;
+        // if (!$updateSuccessful) {
+        //     throw new Exception($translations['task_update_failed'] ?? 'Task update failed.');
+        // }
     }
 
     public function getTaskRequirements($id)

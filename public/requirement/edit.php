@@ -65,6 +65,25 @@ $requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
         <label for="isNonFunctional"><?= $translations['is_non_functional']; ?></label>
         <input type="checkbox" id="isNonFunctional" name="isNonFunctional" value="1" <?= $requirement['isNonFunctional'] ? 'checked' : ''; ?>>
 
+
+        <?php if (!$requirement['isNonFunctional']): ?>
+            <div id="nonFunctionalFields" style="display:none; margin-top: 20px;">
+                <h3>First indicator details</h3>
+
+                <label for="indicator_name"><?= $translations['indicator_name']; ?></label>
+                <input type="text" id="indicator_name" name="indicator_name">
+
+                <label for="unit"><?= $translations['unit']; ?></label>
+                <input type="text" id="unit" name="unit">
+
+                <label for="value"><?= $translations['value']; ?></label>
+                <input type="number" step="0.01" max="10000" id="value" name="value">
+
+                <label for="indicator_description"><?= $translations['indicator_description']; ?></label>
+                <textarea id="indicator_description" name="indicator_description"></textarea>
+            </div>
+        <?php endif; ?>
+
         <div class="actions">
             <button type="submit"><?= $translations['submit']; ?></button>
             <button type="button" class="delete" id="triggerButton"
@@ -96,13 +115,30 @@ $requirementsFilter = $queries['layer'] ? "?layer=" . $queries['layer'] : "";
                     window.location.href = targetUrl;
                     return;
                 }
-                window.location.href = `${currentBaseUrl}${layerFilter}${layerFilter ? '&' : '?'    }id=${id}&message=${errorMessage}`;
+                window.location.href = `${currentBaseUrl}${layerFilter}${layerFilter ? '&' : '?'}id=${id}&message=${errorMessage}`;
             })
             .catch(error => {
                 console.error('Error:', error)
                 window.location.href = `${currentBaseUrl}${layerFilter}&id=${id}&message=${errorMessage}`;
             });
     }
+
+    const isNonFunctionalCheckbox = document.getElementById('isNonFunctional');
+    const nonFunctionalFields = document.getElementById('nonFunctionalFields');
+
+    isNonFunctionalCheckbox.addEventListener('change', () => {
+        if (isNonFunctionalCheckbox.checked) {
+            nonFunctionalFields.style.display = 'block';
+            nonFunctionalFields.querySelectorAll('input, textarea').forEach((element) => {
+                element.required = true;
+            });
+        } else {
+            nonFunctionalFields.style.display = 'none';
+            nonFunctionalFields.querySelectorAll('input, textarea').forEach((element) => {
+                element.required = false;
+            });
+        }
+    });
 </script>
 
 <?php require_once __DIR__ . '/../common/footer.php'; ?>

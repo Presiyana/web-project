@@ -10,6 +10,7 @@ $hashtags = $_POST['hashtags'];
 $isNonFunctional = isset($_POST['isNonFunctional']) ? 1 : 0;
 
 if (empty($id) || empty($title) || empty($description) || empty($hashtags)) {
+    header('Location: ../add.php?message=' . $translations['missing_required_fields']);
     die();
 }
 
@@ -32,6 +33,21 @@ try {
         $layer,
         $isNonFunctional,
     );
+
+    $indicator_name = $_POST['indicator_name'];
+    $unit = $_POST['unit'];
+    $value = $_POST['value'];
+    $indicator_description = $_POST['indicator_description'];
+
+    if (!empty($indicator_name) && !empty($unit) && !empty($value) && !empty($indicator_description)) {
+        $requirementService->addIndicatorForRequirement(
+            $id,
+            $indicator_name,
+            $unit,
+            $value,
+            $indicator_description
+        );
+    }
 
 } catch (Exception $e) {
     header('Location: ../edit.php' . $search . '&message=' . $e->getMessage());

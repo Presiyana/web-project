@@ -21,7 +21,7 @@ $task = $taskService->getTaskById($taskId);
 
 
 <div class="title-container">
-    <h1><?= $translations['edit_task']; ?> #<?= $task['title'] ?></h1>
+    <h1><?= $translations['edit_task']; ?> <?= $task['title'] ?></h1>
 </div>
 <div class="content">
     <form class="box" class="task-form" action="actions/edit_task_action.php" method="post">
@@ -31,15 +31,16 @@ $task = $taskService->getTaskById($taskId);
         <input type="text" id="title" name="title" required value="<?= $task['title'] ?>">
 
         <label for="user_group"><?= $translations['user_group']; ?></label>
-        <select name="user_group" id="user_group" value="<?= $task['user_group'] ?>">
-            <option value="5"><?= $translations['group_5']; ?></option>
-            <option value="6"><?= $translations['group_6']; ?></option>
-            <option value="7"><?= $translations['group_7']; ?></option>
+        <select name="user_group" id="user_group">
+            <option value="5" <?= $task['user_group'] === '5' ? ' selected' : '' ?> ><?= $translations['group_5']; ?></option>
+            <option value="6" <?= $task['user_group'] === '6' ? ' selected' : '' ?> ><?= $translations['group_6']; ?></option>
+            <option value="7" <?= $task['user_group'] === '7' ? ' selected' : '' ?> ><?= $translations['group_7']; ?></option>
         </select>
 
         <div class="actions">
             <button type="submit"><?= $translations['submit']; ?></button>
-            <button class="delete" id="triggerButton" onclick="clickHandler(<?= $requirement['id'] ?>)"><?= $translations['delete']; ?></button>
+            <button class="delete" id="triggerButton"
+                onclick="clickHandler(<?= $requirement['id'] ?>)"><?= $translations['delete']; ?></button>
         </div>
     </form>
 </div>

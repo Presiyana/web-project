@@ -5,7 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/../../../app/services/TaskService.php';
 
-
 $authUser = $_SESSION['auth_user'];
 
 if (!isset($authUser) || $authUser['user_group'] !== 'teacher') {
@@ -18,6 +17,7 @@ $title = $_POST['title'];
 $user_group = $_POST['user_group'];
 
 if (empty($title) || empty($user_group)) {
+    header('Location: ../edit.php?message=' . $translations['missing_required_fields'] ?? 'Missing required fields');
     die();
 }
 
