@@ -215,9 +215,8 @@ class RequirementService
         $isNonFunctional = null
     ) {
         try {
-            $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
+            $sql = "SELECT r.*
                     FROM requirements r
-                    LEFT JOIN indicators i ON r.id = i.requirement_id
                     WHERE 1=1";
 
             $params = [];
