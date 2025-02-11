@@ -118,7 +118,7 @@ $hasFilters = count($params) > 0;
     </div>
     <div class="search-hashtag-container">
         <label for="hashtagSearch"><?= $translations['search_by_hashtag']; ?></label>
-        <input type="text" id="hashtagSearch" placeholder="hashtag">
+        <input type="text" id="hashtagSearch" placeholder="#">
     </div>
     <div class="controls">
         <?php if ($hasFilters): ?>
