@@ -297,7 +297,7 @@ $hasFilters = count($params) > 0;
         rows.forEach(row => {
             let hashtagCell = row.querySelector('td:nth-child(4)');
             if (hashtagCell) {
-                let hashtags = hashtagCell.textContent.toLowerCase().split(/\s+/);
+                let hashtags = hashtagCell.textContent.toLowerCase().split(/\s+/).map(tag => tag.replace(/^#/, ''));
 
                 let matches = searchWords.some(word =>
                     hashtags.some(tag => tag.startsWith(word))
