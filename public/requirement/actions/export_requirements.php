@@ -35,7 +35,7 @@ header('Content-Disposition: attachment; filename="' . $filename . '"');
 
 $output = fopen('php://output', 'w');
 
-fputcsv($output, ['#', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
+fputcsv($output, ['#', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Indicators']);
 
 $index = 1;
 foreach ($requirements as $row) {
@@ -57,7 +57,6 @@ foreach ($requirements as $row) {
         $row['priority'],
         $row['layer'],
         $isNonFunctional ? 'Yes' : 'No',
-        $row['created_at'],
         json_encode($indicators, JSON_UNESCAPED_UNICODE)
     ]);
 }

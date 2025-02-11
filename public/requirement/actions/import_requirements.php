@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES["csvFile"])) {
         $priority = $data[4] ?? '';
         $layer = $data[5] ?? '';
         $isNonFunctional = strtolower(trim($data[6])) === "yes";
-        $indicators = json_decode($data[8], true);
+        $indicators = json_decode($data[7], true);
 
         $allowedPriorities = ['high', 'medium', 'low'];
         $allowedLayers = ['client', 'routing', 'business', 'db', 'test'];
