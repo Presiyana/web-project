@@ -25,3 +25,8 @@ INSERT INTO tasks (title, user_group, user_id) VALUES
 ('Database Performance Optimization', '6', 2), 
 ('Implement Multi-Language Support', '7', 1); 
 
+
+INSERT INTO taskRequirements (task_id, requirement_id, status) VALUES
+(1, 1, 'in_progress'), 
+(2, 2, 'complete'),  
+(3, 3, 'in_progress'); 
