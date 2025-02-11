@@ -35,8 +35,9 @@ header('Content-Disposition: attachment; filename="' . $filename . '"');
 
 $output = fopen('php://output', 'w');
 
-fputcsv($output, ['ID', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
+fputcsv($output, ['#', 'Title', 'Description', 'Hashtags', 'Priority', 'Layer', 'Is Non-Functional', 'Created At', 'Indicators']);
 
+$index = 1;
 foreach ($requirements as $row) {
     $isNonFunctional = isset($row['isNonFunctional']) ? (int) $row['isNonFunctional'] : 0;
 
@@ -49,7 +50,7 @@ foreach ($requirements as $row) {
     }
 
     fputcsv($output, [
-        $row['id'],
+        $index++,
         $row['title'],
         $row['description'],
         $row['hashtags'],

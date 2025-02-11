@@ -3,13 +3,11 @@ class DatabaseBootstrapper
 {
     private $conn;
     private $schemaFile;
-    private $dataFile;
 
     public function __construct($connection)
     {
         $this->conn = $connection;
         $this->schemaFile = __DIR__ . '/../../sql/schema.sql';
-        $this->dataFile = __DIR__ . '/../../sql/examples.sql'; 
     }
 
     public function initialize()
@@ -17,7 +15,6 @@ class DatabaseBootstrapper
         if ($this->needsInitialization()) {
             $this->createDatabase();
             $this->createTables();
-            $this->insertTestData();
         }
     }
 
@@ -43,14 +40,6 @@ class DatabaseBootstrapper
     {
         $sql = file_get_contents($this->schemaFile);
         $this->conn->exec($sql);
-    }
-
-    private function insertTestData()
-    {
-        if (file_exists($this->dataFile)) {
-            $sql = file_get_contents($this->dataFile);
-            $this->conn->exec($sql);
-        }
     }
 
 }

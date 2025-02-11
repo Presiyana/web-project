@@ -2,7 +2,6 @@ START TRANSACTION;
 
 INSERT INTO users (username, email, password, user_group) VALUES
 ('milenpetrov', 'milenpetrov@example.com', 'meow', 'teacher'),
-('teacher2', 'teacher2@example.com', 'meow', 'teacher'),
 ('student1', 'student1@example.com', 'meow', '5'),
 ('student2', 'student2@example.com', 'meow', '6'),
 ('student3', 'student3@example.com', 'meow', '7');
@@ -24,13 +23,13 @@ INSERT INTO indicators (requirement_id, indicator_name, unit, value, indicator_d
 
 INSERT INTO tasks (title, user_group, user_id) VALUES
 ('Design Login System', '5', (SELECT id FROM users WHERE username = 'milenpetrov')), 
--- ('Database Performance Optimization', '6', (SELECT id FROM users WHERE username = 'teacher2')), 
+('Database Performance Optimization', '6', (SELECT id FROM users WHERE username = 'milenpetrov')), 
 ('Implement Multi-Language Support', '7', (SELECT id FROM users WHERE username = 'milenpetrov')); 
 
 
 INSERT INTO taskRequirements (task_id, requirement_id, status) VALUES
 ((SELECT id FROM tasks WHERE title = 'Design Login System'), (SELECT id FROM requirements WHERE title = 'User Registration'), 'in_progress'), 
--- ((SELECT id FROM tasks WHERE title = 'Database Performance Optimization'), (SELECT id FROM requirements WHERE title = 'Payment Integration'), 'complete'),  
+((SELECT id FROM tasks WHERE title = 'Database Performance Optimization'), (SELECT id FROM requirements WHERE title = 'Payment Integration'), 'complete'),  
 ((SELECT id FROM tasks WHERE title = 'Implement Multi-Language Support'), (SELECT id FROM requirements WHERE title = 'Notification'), 'in_progress'); 
 
-COMMIT;; 
+COMMIT;
