@@ -40,7 +40,7 @@ return [
     'task_number' => 'Задача - ',
     'actions' => 'Действия',
     'toggle_completion' => 'Превключване на завършване',
-    'non_functional' => 'Не функционални',
+    'non_functional' => 'Нефункционални',
     'functional' => 'Функционални',
     'edit' => 'Редактиране',
     'task_requirements' => 'Изисквания към задачата',
