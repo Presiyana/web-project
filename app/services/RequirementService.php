@@ -22,9 +22,7 @@ class RequirementService
 
     public function getRequirements()
     {
-        $sql = "SELECT r.*, i.indicator_name, i.unit, i.value, i.indicator_description
-                FROM `requirements` r
-                LEFT JOIN `indicators` i ON r.id = i.requirement_id";
+        $sql = "SELECT * FROM `requirements`";
         $stmt = $this->db->query($sql);
         $result = $stmt->fetchAll();
         return $result;
