@@ -40,9 +40,12 @@ require_once __DIR__ . '/../common/header.php';
 
         <label for="user_group"><?= $translations['user_group']; ?></label>
         <select disabled name="user_group" id="user_group">
-            <option value="5" <?= $task['user_group'] === '5' ? ' selected' : '' ?> ><?= $translations['group_5']; ?></option>
-            <option value="6" <?= $task['user_group'] === '6' ? ' selected' : '' ?> ><?= $translations['group_6']; ?></option>
-            <option value="7" <?= $task['user_group'] === '7' ? ' selected' : '' ?> ><?= $translations['group_7']; ?></option>
+            <option value="5" <?= $task['user_group'] === '5' ? ' selected' : '' ?>><?= $translations['group_5']; ?>
+            </option>
+            <option value="6" <?= $task['user_group'] === '6' ? ' selected' : '' ?>><?= $translations['group_6']; ?>
+            </option>
+            <option value="7" <?= $task['user_group'] === '7' ? ' selected' : '' ?>><?= $translations['group_7']; ?>
+            </option>
         </select>
     </form>
 
@@ -72,7 +75,8 @@ require_once __DIR__ . '/../common/header.php';
         </thead>
         <tbody id="tasksBody">
             <?php foreach ($taskRequirements as $idx => $taskRequirement): ?>
-                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>">
+                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>"
+                    data-requirement-id="<?= $taskRequirement['requirement_id']; ?>">
                     <td>
                         <?= $idx + 1 ?>
                     </td>
@@ -109,7 +113,8 @@ require_once __DIR__ . '/../common/header.php';
         </thead>
         <tbody id="tasksBody">
             <?php foreach ($nonFunctionalTaskRequirements as $idx => $taskRequirement): ?>
-                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>" data-requirement-id="<?= $taskRequirement['requirement_id']; ?>">
+                <tr class="task-requirement-entry" data-id="<?= $taskRequirement['id']; ?>"
+                    data-requirement-id="<?= $taskRequirement['requirement_id']; ?>">
                     <td>
                         <?= $idx + 1 ?>
                     </td>
